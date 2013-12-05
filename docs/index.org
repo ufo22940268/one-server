@@ -1,22 +1,43 @@
+* 环境
+** 网址
+http://192.241.196.189:10010
 
 * 搭车信息
   
 ** 查看搭车信息
 
-url: /ride
+*** 请求方法
+GET
 
-| name           | type  | required | desc       |
-|----------------+-------+----------+------------|
-| title          | str   | True     | 标题       |
-| start_off_time | str   | True     | 搭车时间   |
-| wait_time      | str   | True     | 可等待时间 |
-| start_lat      | float | True     | 乘车地点   |
-| start_lng      | float | True     |            |
-| dest_lat       | float | True     |            |
-| dest_lng       | float | True     |            |
-| price          | int   | True     |            |
-| people         | int   | True     |            |
-| canar_type     | int   | True     |            |
+*** 网址
+/ride
+
+*** 请求参数
+| name | type | required | desc     |
+|------+------+----------+----------|
+| lat  | str  | True     | 当前坐标 |
+| lng  | str  | True     | 当前坐标 | 
+
+** 上传新的搭车信息 
+
+*** 请求方法
+POST
+
+*** 网址
+/ride
+
+*** 请求参数
+| name           | type  | required | desc        |
+|----------------+-------+----------+-------------|
+| title          | str   | True     | 标题        |
+| start_off_time | str   | True     | 搭车时间    |
+| wait_time      | str   | True     | 可等待时间  |
+| start_lat      | float | True     | 乘车地点lat |
+| start_lng      | float | True     | 乘车地点lng |
+| dest_lat       | float | True     | 目的地lat   |
+| dest_lng       | float | True     | 目的地lng   |
+| price          | int   | True     | 所需搭车币  |
+| people         | int   | True     | 乘车人数    |
+| comment        | str   | False    | 评论        |
 
 
-        

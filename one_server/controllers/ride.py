@@ -29,7 +29,6 @@ class Rides(Resource):
         self.api_parser.add_argument('dest_lng'       , type=float , required=True)
         self.api_parser.add_argument('price'          , type=int   , required=True)
         self.api_parser.add_argument('people'         , type=int   , required=True)
-        self.api_parser.add_argument('car_type'       , type=int   , required=True)
         self.api_parser.add_argument('comment'        , type=str)
 
     def get(self):
