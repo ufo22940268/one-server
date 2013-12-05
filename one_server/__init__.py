@@ -5,16 +5,22 @@ from flask import Flask
 from flask_assets import Environment
 from webassets.loaders import PythonLoader as PythonAssetsLoader
 from flask.ext.cache import Cache
+from flask.ext.pymongo import PyMongo
+from flask.ext.restful import reqparse, abort, Api, Resource
+from pymongo import GEO2D
 
-from appname import assets
-from appname.models import db
+from one_server import assets
 
 # Setup flask cache
 cache = Cache()
 
-# init flask assets
 assets_env = Environment()
+api = Api()
+mongo = PyMongo()
 
+def init_database():
+    mongo.db.ride.create_index([("start_loc", GEO2D)])
+    mongo.db.ride.create_index([("desc_loc", GEO2D)])
 
 def create_app(object_name, env="prod"):
     """
@@ -23,7 +29,7 @@ def create_app(object_name, env="prod"):
 
     Arguments:
         object_name: the python path of the config object,
-                     e.g. appname.settings.ProdConfig
+                     e.g. one_server.settings.ProdConfig
 
         env: The name of the current environment, e.g. prod or dev
     """
@@ -36,8 +42,10 @@ def create_app(object_name, env="prod"):
     #init the cache
     cache.init_app(app)
 
-    #init SQLAlchemy
-    db.init_app(app)
+    # connect to the database
+    mongo.init_app(app)
+
+    api.init_app(app)
 
     # Import and register the different asset bundles
     assets_env.init_app(app)
@@ -48,6 +56,7 @@ def create_app(object_name, env="prod"):
     # register our blueprints
     from controllers.main import main
     app.register_blueprint(main)
+    import controllers.ride 
 
     return app
 
@@ -55,6 +64,6 @@ if __name__ == '__main__':
     # Import the config for the proper environment using the
     # shell var APPNAME_ENV
     env = os.environ.get('APPNAME_ENV', 'prod')
-    app = create_app('appname.settings.%sConfig' % env.capitalize(), env=env)
+    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)
 
     app.run()

@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, flash, request
 
-from appname import cache
-from appname.forms import MyForm
+from one_server import cache
 
 main = Blueprint('main', __name__)
 

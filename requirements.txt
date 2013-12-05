@@ -25,3 +25,5 @@ pyflakes==0.7.3
 pytest==2.3.5
 webassets==0.8
 wsgiref==0.1.2
+flask-pymongo
+flask-restful

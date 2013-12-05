@@ -26,4 +26,13 @@ lint:
 	flake8 --exclude=env .
 
 test:
-	py.test tests
+	py.test -s -x tests
+
+testdb:
+	py.test -s -x tests/test_db.py
+
+testride:
+	py.test -s -x tests/test_ride.py
+
+server:
+	./manage.py runserver
