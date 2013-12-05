@@ -11,7 +11,7 @@ class TestDb:
         self.app = create_app('one_server.settings.DevConfig', env='dev')
         self.context = self.app.test_request_context('/')
         self.context.push()
-        mongo.db.places.drop()
+        mongo.db.places.remove()
 
     def tearDown(self):
         self.context.pop()

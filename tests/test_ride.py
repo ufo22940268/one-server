@@ -4,6 +4,8 @@ from one_server import create_app
 from one_server import mongo
 from flask.ext.pymongo import PyMongo
 import json
+import urllib
+from base import *
 
 def parse_json(raw):
     try:
@@ -19,10 +21,11 @@ class TestRide:
         cls.test_app = cls.app.test_client()
         cls.context = cls.app.test_request_context('/')
         cls.context.push()
-        mongo.db.ride.drop()
+        mongo.db.ride.remove()
 
     def test_list(self):
-        rv = self.test_app.get('rides')
+        params={'lat': 5.0, 'lng': 5.0}
+        rv = self.test_app.get(make_url_end("rides", params))
         assert rv.status_code == 200
 
     def test_add(self):
@@ -44,16 +47,17 @@ class TestRide:
             assert rv.status_code == 200
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
-        assert rides_cursor[0]['start_loc'][0] == 5
 
-        rv = self.test_app.get('rides')
+        rv = self.test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
         assert len(js)
+        assert js[0]['start_loc'][0] == 5
 
         rv = self.test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200
 
     @classmethod
     def teardown_class(cls):
-        cls.context.pop()
+        if cls.context:
+            cls.context.pop()
 

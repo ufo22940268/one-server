@@ -18,10 +18,6 @@ assets_env = Environment()
 api = Api()
 mongo = PyMongo()
 
-def init_database():
-    mongo.db.ride.create_index([("start_loc", GEO2D)])
-    mongo.db.ride.create_index([("desc_loc", GEO2D)])
-
 def create_app(object_name, env="prod"):
     """
     An flask application factory, as explained here:

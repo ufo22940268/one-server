@@ -33,10 +33,24 @@ class Rides(Resource):
         self.api_parser.add_argument('comment'        , type=str)
 
     def get(self):
-        return json.loads(dumps(mongo.db.ride.find()))
+        parser = reqparse.RequestParser()
+        parser.add_argument('lat'      , type=float , required=True)
+        parser.add_argument('lng'      , type=float , required=True)
+        args = parser.parse_args()
+        return json.loads(dumps(mongo.db.ride.find(
+            {"start_loc": {"$near": [args['lat'], args['lng']]}}
+            )))
 
     def post(self):
         args = self.api_parser.parse_args()
+        start_loc = [args['start_lat'], args['start_lng']]
+        dest_loc = [args['dest_lat'], args['dest_lng']]
+        args['start_loc'] = start_loc
+        args['dest_loc'] = dest_loc
+        del args['start_lat']
+        del args['start_lng']
+        del args['dest_lat']
+        del args['dest_lng']
         mongo.db.ride.insert(args)
 
 api.add_resource(Rides, '/rides')
