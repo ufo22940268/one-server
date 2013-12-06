@@ -17,10 +17,6 @@ class TestUser:
 
     @classmethod
     def setup_class(cls):
-        cls.app = create_app('one_server.settings.DevConfig', env='dev')
-        cls.test_app = cls.app.test_client()
-        cls.context = cls.app.test_request_context('/')
-        cls.context.push()
         mongo.db.user.remove()
 
     def test_add_user(self):
@@ -34,10 +30,6 @@ class TestUser:
             'age_segment' : 80,
         }
 
-        rv = self.test_app.post('users', data=params)
+        rv = test_app.post('users', data=params)
         assert rv.status_code == 200
 
-    @classmethod
-    def teardown_class(cls):
-        if cls.context:
-            cls.context.pop()

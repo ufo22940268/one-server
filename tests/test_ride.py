@@ -13,26 +13,16 @@ def parse_json(raw):
     except:
         raise Exception("%s not valid json string" % raw)
 
-# mongo = PyMongo()
 
 class TestRide:
 
-    @classmethod
-    def setup_class(cls):
-        cls.app = create_app('one_server.settings.DevConfig', env='dev')
-        cls.test_app = cls.app.test_client()
-        cls.context = cls.app.test_request_context('/')
-        cls.context.push()
-
-        mongo.db.ride.remove()
-
     def test_list(self):
         params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
-        rv = self.test_app.get(make_url_end("rides", params))
+        rv = test_app.get(make_url_end("rides", params))
         assert rv.status_code != 200
 
         params={'lat': 5.0, 'lng': 5.0}
-        rv = self.test_app.get(make_url_end("rides", params))
+        rv = test_app.get(make_url_end("rides", params))
         assert rv.status_code == 200
 
     def test_add(self):
@@ -51,24 +41,15 @@ class TestRide:
                 'comment'       : 'asdf',
                 'token'         : 'hongbosb',
                 }
-            rv = self.test_app.post('rides', data=params)
+            rv = test_app.post('rides', data=params)
             assert rv.status_code == 200
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
 
-        rv = self.test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
+        rv = test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
         assert len(js)
         assert js[0]['start_loc'][0] == 5
 
-        rv = self.test_app.post('rides', data={'a': 0})
+        rv = test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200
-
-    @classmethod
-    def teardown_class(cls):
-        try:
-            if hasattr(cls, 'context'):
-                cls.context.pop()
-        except:
-            pass
-
