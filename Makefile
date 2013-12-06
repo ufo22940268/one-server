@@ -34,5 +34,9 @@ testdb:
 testride:
 	py.test -s -x tests/test_ride.py
 
+testuser:
+	py.test -s -x tests/test_user.py
+
+
 server:
 	./manage.py runserver

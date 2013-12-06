@@ -64,8 +64,8 @@ assets_env = Environment()assets_env17,386
 api = Api()api18,413
 mongo = PyMongo()mongo19,425
 def create_app(object_name, env="prod"):create_app21,444
-    env = os.environ.get('APPNAME_ENV', 'prod')env62,1531
-    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app63,1579
+    env = os.environ.get('APPNAME_ENV', 'prod')env64,1565
+    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app65,1613
 
 one_server/assets.py,244
 common_css = Bundle(common_css3,33
@@ -87,6 +87,10 @@ class Rides(Resource):Rides19,392
     def __init__(self):__init__21,416
     def get(self):get34,1314
     def post(self):post43,1682
+
+one_server/controllers/user.py,66
+class User(Resource):User19,392
+    def post(self):post30,795
 
 one_server/settings.py,421
 class Config(object):Config1,0
@@ -204,3 +208,10 @@ class TestRide:TestRide16,324
     def test_list(self):test_list26,617
     def test_add(self):test_add31,782
     def teardown_class(cls):teardown_class60,1821
+
+tests/test_user.py,218
+def parse_json(raw):parse_json10,192
+class TestUser:TestUser16,324
+    def setup_class(cls):setup_class19,358
+    def test_add_user(self):test_add_user26,617
+    def teardown_class(cls):teardown_class41,1031

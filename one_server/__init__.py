@@ -52,7 +52,9 @@ def create_app(object_name, env="prod"):
     # register our blueprints
     from controllers.main import main
     app.register_blueprint(main)
+    
     import controllers.ride 
+    import controllers.user 
 
     return app
 
