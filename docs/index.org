@@ -41,3 +41,9 @@ POST
 | comment        | str   | False    | 评论        |
 
 
+* 还没有完成的任务
+
+** TODO 加入用户审核模块，也许是Oauth， 找一下现成的工具。
+** TODO 继续添加新的接口。
+** TODO 解决make test的时候不能全部测试的问题。
+

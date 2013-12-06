@@ -43,6 +43,12 @@ PAPEROPT_letter = -D latex_paper_size=letterPAPEROPT_letter17,696
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .ALLSPHINXOPTS18,741
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .I18NSPHINXOPTS20,897
 
+fabfile.py,67
+def deploy():deploy8,165
+def kill_unicorn():kill_unicorn19,568
+
+kill.sh,0
+
 Makefile,0
 
 manage.py,244
@@ -79,8 +85,8 @@ def wtform():wtform15,277
 one_server/controllers/ride.py,140
 class Rides(Resource):Rides19,392
     def __init__(self):__init__21,416
-    def get(self):get35,1398
-    def post(self):post44,1766
+    def get(self):get34,1314
+    def post(self):post43,1682
 
 one_server/settings.py,421
 class Config(object):Config1,0
@@ -175,6 +181,9 @@ one_server/templates/base.html,0
 one_server/templates/index.html,0
 
 one_server/templates/wtform_example.html,0
+
+run.py,81
+app = one_server.create_app('one_server.settings.DevConfig', env='dev')app3,20
 
 tests/__init__.py,0
 
