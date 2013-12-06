@@ -10,12 +10,14 @@
 
 """
 
-from one_server import login_manager
+from one_server import login_manager, mongo
 from functools import wraps
 from flask.ext import restful
 from flask import request
+from bson import ObjectId
 
 def authenticate(func):
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not getattr(func, 'authenticated', True):
@@ -42,5 +44,11 @@ def authenticate(func):
 
 @login_manager.user_loader
 def load_user(token):
-    return token == 'hongbosb'
+    try:
+        oi = ObjectId(token)
+    except:
+        return
+
+    c = mongo.db.user.find({'_id': oi})
+    return c.count() != 0
 

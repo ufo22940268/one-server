@@ -39,7 +39,7 @@ class TestRide:
                 'people'        : 2,
                 'car_type'      : 1,
                 'comment'       : 'asdf',
-                'token'         : 'hongbosb',
+                'token'         : token,
                 }
             rv = test_app.post('rides', data=params)
             assert rv.status_code == 200

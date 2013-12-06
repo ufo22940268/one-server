@@ -5,6 +5,7 @@ import one_server
 from flask.ext.pymongo import PyMongo
 from pymongo import GEO2D
 from base import *
+from bson import ObjectId
 
 class TestDb:
 
@@ -28,3 +29,8 @@ class TestDb:
         l = list(db.places.find({"loc": {"$near": [1, 3]}}).limit(3))
         assert len(l) == 3
         assert l[0]['loc'] == [1, 2]
+
+    def test_user(self):
+        db = mongo.db
+        r = db.user.insert({'name': 'k'})
+        assert type(r) == ObjectId

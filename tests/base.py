@@ -11,15 +11,18 @@
 """
 
 import urllib
-from one_server import create_app
-
-def make_url_end(url, params):
-    if not params.get('token'):
-        params['token'] = 'hongbosb'
-
-    return '%s?%s' % (url, urllib.urlencode(params))
+from one_server import create_app, mongo
 
 app = create_app('one_server.settings.DevConfig', env='dev')
 test_app = app.test_client()
 context = app.test_request_context('/')
 context.push()
+
+token = str(mongo.db.user.insert({'nickname': 'k'}))
+
+def make_url_end(url, params):
+    if not params.get('token'):
+        params['token'] = token
+
+    return '%s?%s' % (url, urllib.urlencode(params))
+

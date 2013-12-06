@@ -32,4 +32,3 @@ class TestUser:
 
         rv = test_app.post('users', data=params)
         assert rv.status_code == 200
-
