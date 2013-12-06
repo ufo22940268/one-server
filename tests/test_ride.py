@@ -13,6 +13,8 @@ def parse_json(raw):
     except:
         raise Exception("%s not valid json string" % raw)
 
+# mongo = PyMongo()
+
 class TestRide:
 
     @classmethod
@@ -21,9 +23,14 @@ class TestRide:
         cls.test_app = cls.app.test_client()
         cls.context = cls.app.test_request_context('/')
         cls.context.push()
+
         mongo.db.ride.remove()
 
     def test_list(self):
+        params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
+        rv = self.test_app.get(make_url_end("rides", params))
+        assert rv.status_code != 200
+
         params={'lat': 5.0, 'lng': 5.0}
         rv = self.test_app.get(make_url_end("rides", params))
         assert rv.status_code == 200
@@ -42,6 +49,7 @@ class TestRide:
                 'people'        : 2,
                 'car_type'      : 1,
                 'comment'       : 'asdf',
+                'token'         : 'hongbosb',
                 }
             rv = self.test_app.post('rides', data=params)
             assert rv.status_code == 200
@@ -58,6 +66,9 @@ class TestRide:
 
     @classmethod
     def teardown_class(cls):
-        if cls.context:
-            cls.context.pop()
+        try:
+            if hasattr(cls, 'context'):
+                cls.context.pop()
+        except:
+            pass
 

@@ -12,11 +12,18 @@
 from flask import Flask
 from flask.ext.restful import reqparse, abort, Api, Resource
 from flask.ext.restful.types import date
-from one_server import api, mongo
+from flask.ext import restful
+from flask.ext.login import LoginManager
+
+from one_server.model.user_model import authenticate
+from one_server import api, mongo, login_manager
 from bson.json_util import dumps
 import json
+from functools import wraps
 
 class Rides(Resource):
+    
+    method_decorators = [authenticate]
 
     def __init__(self):
         self.api_parser = reqparse.RequestParser()
@@ -38,7 +45,7 @@ class Rides(Resource):
         args = parser.parse_args()
         return json.loads(dumps(mongo.db.ride.find(
             {"start_loc": {"$near": [args['lat'], args['lng']]}}
-            )))
+        )))
 
     def post(self):
         args = self.api_parser.parse_args()

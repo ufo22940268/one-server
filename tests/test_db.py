@@ -7,14 +7,23 @@ from pymongo import GEO2D
 
 class TestDb:
 
-    def setup(self):
-        self.app = create_app('one_server.settings.DevConfig', env='dev')
-        self.context = self.app.test_request_context('/')
-        self.context.push()
+    @classmethod
+    def setup_class(cls):
+        cls.app = create_app('one_server.settings.DevConfig', env='dev')
+        cls.test_app = cls.app.test_client()
+        cls.context = cls.app.test_request_context('/')
+        cls.context.push()
+
         mongo.db.places.remove()
 
-    def tearDown(self):
-        self.context.pop()
+
+    @classmethod
+    def teardown_class(cls):
+        try:
+            if hasattr(cls, '(d)'):
+                cls.context.pop()
+        except:
+            pass
 
     def test_main(self):
         one_server.mongo.db.t.insert({"a": 1})

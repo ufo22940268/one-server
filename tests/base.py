@@ -13,4 +13,7 @@
 import urllib
 
 def make_url_end(url, params):
+    if not params.get('token'):
+        params['token'] = 'hongbosb'
+
     return '%s?%s' % (url, urllib.urlencode(params))

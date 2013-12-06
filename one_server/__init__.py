@@ -10,6 +10,7 @@ from flask.ext.restful import reqparse, abort, Api, Resource
 from pymongo import GEO2D
 
 from one_server import assets
+from flask.ext.login import LoginManager
 
 # Setup flask cache
 cache = Cache()
@@ -17,6 +18,7 @@ cache = Cache()
 assets_env = Environment()
 api = Api()
 mongo = PyMongo()
+login_manager = LoginManager()
 
 def create_app(object_name, env="prod"):
     """
@@ -42,6 +44,7 @@ def create_app(object_name, env="prod"):
     mongo.init_app(app)
 
     api.init_app(app)
+    login_manager.init_app(app)
 
     # Import and register the different asset bundles
     assets_env.init_app(app)
