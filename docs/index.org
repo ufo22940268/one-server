@@ -52,9 +52,15 @@ POST
 /user
 
 *** 请求参数
-| name           | type  | required | desc        |
-|----------------+-------+----------+-------------|
- 
+| name        | type  | required | desc     |
+|-------------+-------+----------+----------|
+| nickname    | str   | required | 昵称     |
+| status      | str   | required | 个性签名 |
+| lat         | float | require  | 所在地   |
+| lng         | float | required | 所在地   |
+| sex         | int   | required | 性别     |
+| age_segment | int   | required | 年龄段   |
+
 
 * 还没有完成的任务
   
@@ -65,7 +71,7 @@ POST
 
 ** TODO 信息搜索
    - [ ] 搜索表单
-
+     
 ** TODO 搭车信息
    - [X] 搭车信息提交
    - [ ] 日期验证
