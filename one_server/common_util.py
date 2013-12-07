@@ -13,7 +13,7 @@
 import json
 from bson.json_util import dumps
 
-def to_dict(c):
+def cursor_to_dict(c):
     """Convert mongodb cursor object to python dict object"""
     return json.loads(dumps(c))
 

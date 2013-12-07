@@ -34,7 +34,10 @@ def make_url_end(url, params):
     if not params.get('token'):
         params['token'] = token
 
-    return '%s?%s' % (url, urllib.urlencode(params))
+    if params:
+        return '%s?%s' % (url, urllib.urlencode(params))
+    else:
+        return url
 
 def parse_json(raw):
     try:
@@ -50,6 +53,10 @@ class TestBase(object):
 
     def post(self, end, params):
         rv = test_app.post(end, data=params)
+        return parse_json(rv.data), rv.status_code
+        
+    def get(self, end, params = {}):
+        rv = test_app.get(make_url_end(end, params))
         return parse_json(rv.data), rv.status_code
         
     def get_user_id(self):

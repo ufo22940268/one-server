@@ -46,8 +46,14 @@ class Comment(BaseResource):
         args = parser.parse_args()
         user_id = self.get_user_id()
         mongo.db.user.update({"_id": ObjectId(user_id)},
-                {'$set': {'comment': args['comment']}})
+                {'$push': {'comment': args['comment']}})
         return '', 200
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('user_id'      , type=str, required=True)
+        args = parser.parse_args()
+        return {'result': user_model.get_comment(args['user_id'])}
 
 api.add_resource(User, '/users')
 api.add_resource(Comment, '/comments')

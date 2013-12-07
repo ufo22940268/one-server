@@ -82,3 +82,17 @@ POST
 |--------------+------+----------+------------|
 | commentor_id | str  | True     | 评论者的id |
 | comment      | str  | True     | 评论的内容 |
+
+** 查看评论某个用户的评论
+
+*** 请求方法
+GET
+
+*** 路径
+/comments
+
+*** 请求参数
+| name    | type | required | desc     |
+|---------+------+----------+----------|
+| user_id | str  | True     | 用户id   |
+

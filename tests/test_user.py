@@ -5,7 +5,7 @@ from one_server import mongo
 from flask.ext.pymongo import PyMongo
 import json
 import urllib
-from base import test_app, TestBase, token2
+from base import test_app, TestBase, token2, token
 
 class TestUser:
 
@@ -29,8 +29,14 @@ class TestUser:
 class TestComment(TestBase):
 
     def test_do_comment(self):
-
         params = {'commentor_id': token2, 'comment': 'sb'}
         js, status = self.post('comments', params)
         assert status == 200
-        #assert mongo.db.comment.find_one()
+
+    def test_list_comments(self):
+        for _ in range(5):
+            params = {'commentor_id': token2, 'comment': 'sb'}
+            js, status = self.post('comments', params)
+            assert status == 200
+        js, status = self.get('comments', params={'user_id': token})
+        assert len(js['result'])

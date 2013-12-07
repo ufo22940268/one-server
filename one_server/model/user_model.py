@@ -68,5 +68,5 @@ def login_user(token):
     return um
 
 def get_comment(user_id):
-    user_ids = mongo.db.user.find({"_id": ObjectId(user_id)})
-    to_dict(user_ids)
+    user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    return cursor_to_dict(user).get('comment')
