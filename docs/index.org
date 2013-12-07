@@ -68,6 +68,21 @@ POST
 | age_segment | int   | required | 年龄段   |
 
 
+* 评论
+
+** 添加评论
+*** 请求方法
+POST
+
+*** 路径
+/comments
+
+*** 请求参数
+| name         | type | required | desc       |
+|--------------+------+----------+------------|
+| commentor_id | str  | True     | 评论者的id |
+| comment      | str  | True     | 评论的内容 |
+
 * 还没有完成的任务
   
 ** DONE 加入用户登陆模块 [2/2]
