@@ -16,7 +16,7 @@ from flask.ext.login import LoginManager
 cache = Cache()
 
 assets_env = Environment()
-api = Api()
+api = Api(catch_all_404s=True)
 mongo = PyMongo()
 login_manager = LoginManager()
 

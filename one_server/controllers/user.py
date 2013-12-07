@@ -15,6 +15,9 @@ from flask.ext.restful.types import date
 from one_server import api, mongo
 from bson.json_util import dumps
 import json
+from bson import ObjectId
+from one_server.model import user_model
+from one_server.controllers.base_controller import *
 
 class User(Resource):
 
@@ -34,4 +37,17 @@ class User(Resource):
 
         mongo.db.user.insert(args)
 
+class Comment(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('commentor_id'    , type=str   , required=True)
+        parser.add_argument('comment'    , type=str   , required=True)
+        args = parser.parse_args()
+        user_id = self.get_user_id()
+        mongo.db.user.update({"_id": ObjectId(user_id)},
+                {'$set': {'comment': args['comment']}})
+        return '', 200
+
 api.add_resource(User, '/users')
+api.add_resource(Comment, '/comments')

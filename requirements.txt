@@ -1,3 +1,4 @@
+git+git://github.com/ufo22940268/flask-restful.git@master
 Flask==0.10.1
 Flask-Assets==0.8
 Flask-Cache==0.12

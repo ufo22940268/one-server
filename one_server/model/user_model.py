@@ -16,6 +16,9 @@ from flask.ext.login import UserMixin
 from flask.ext import login
 from flask import request
 from bson import ObjectId
+from one_server.controllers.base_controller import *
+from one_server.common_util import *
+import json
 
 def authenticate(func):
 
@@ -48,7 +51,7 @@ def load_user(token):
     #find token in nickname:
     one = mongo.db.user.find_one({'nickname': token})
     if one:
-        return login_user(token)
+        return login_user(str(one['_id']))
     else:
         try:
             oi = ObjectId(token)
@@ -63,3 +66,7 @@ def login_user(token):
     um.id = token
     login.login_user(um)
     return um
+
+def get_comment(user_id):
+    user_ids = mongo.db.user.find({"_id": ObjectId(user_id)})
+    to_dict(user_ids)
