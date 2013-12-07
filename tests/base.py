@@ -12,17 +12,25 @@
 
 import urllib
 from one_server import create_app, mongo
+import json
 
 app = create_app('one_server.settings.DevConfig', env='dev')
 test_app = app.test_client()
 context = app.test_request_context('/')
 context.push()
 
-token = str(mongo.db.user.insert({'nickname': 'k'}))
+mongo.db.user.remove()
+token = str(mongo.db.user.insert({'nickname': 'asdf'}))
 
 def make_url_end(url, params):
     if not params.get('token'):
         params['token'] = token
 
     return '%s?%s' % (url, urllib.urlencode(params))
+
+def parse_json(raw):
+    try:
+        return json.loads(raw)
+    except:
+        raise Exception("%s not valid json string" % raw)
 

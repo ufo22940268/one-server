@@ -5,19 +5,12 @@ from one_server import mongo
 from flask.ext.pymongo import PyMongo
 import json
 import urllib
-from base import *
-
-def parse_json(raw):
-    try:
-        return json.loads(raw)
-    except:
-        raise Exception("%s not valid json string" % raw)
+from base import test_app
 
 class TestUser:
 
-    @classmethod
-    def setup_class(cls):
-        mongo.db.user.remove()
+    def test_init(self):
+        assert mongo.db.user.find_one({'nickname': 'asdf'})
 
     def test_add_user(self):
         params = {

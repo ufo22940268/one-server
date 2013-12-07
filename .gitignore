@@ -38,3 +38,4 @@ env*
 .webassets-cache
 *.sublime-*
 Session.vim
+.#*

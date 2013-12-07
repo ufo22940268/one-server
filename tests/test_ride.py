@@ -7,19 +7,16 @@ import json
 import urllib
 from base import *
 
-def parse_json(raw):
-    try:
-        return json.loads(raw)
-    except:
-        raise Exception("%s not valid json string" % raw)
-
-
 class TestRide:
 
+    @classmethod
+    def setup_class(cls):
+        mongo.db.ride.remove()
+
     def test_list(self):
-        params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
-        rv = test_app.get(make_url_end("rides", params))
-        assert rv.status_code != 200
+        #params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
+        #rv = test_app.get(make_url_end("rides", params))
+        #assert rv.status_code != 200
 
         params={'lat': 5.0, 'lng': 5.0}
         rv = test_app.get(make_url_end("rides", params))
@@ -45,11 +42,15 @@ class TestRide:
             assert rv.status_code == 200
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
+        assert rides_cursor[0]['user_id']
 
         rv = test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
         assert len(js)
-        assert js[0]['start_loc'][0] == 5
+
+        one = js['result'][0]
+        assert one['start_loc'][0] == 5
+        #assert one['user']
 
         rv = test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200

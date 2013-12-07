@@ -59,6 +59,12 @@ def create_app(object_name, env="prod"):
     import controllers.ride 
     import controllers.user 
 
+    with app.app_context():
+        if not mongo.db.user.find_one({'nickname': 'asdf'}):
+            mongo.db.user.insert({"nickname": 'asdf'})
+        mongo.db.ride.create_index([("start_loc", GEO2D)])
+        mongo.db.ride.create_index([("desc_loc", GEO2D)])
+
     return app
 
 if __name__ == '__main__':

@@ -13,13 +13,15 @@ from flask import Flask
 from flask.ext.restful import reqparse, abort, Api, Resource
 from flask.ext.restful.types import date
 from flask.ext import restful
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, current_user
 
 from one_server.model.user_model import authenticate
 from one_server import api, mongo, login_manager
 from bson.json_util import dumps
 import json
 from functools import wraps
+from one_server.model import ride_model
+from bson import ObjectId
 
 class Rides(Resource):
     
@@ -43,9 +45,14 @@ class Rides(Resource):
         parser.add_argument('lat'      , type=float , required=True)
         parser.add_argument('lng'      , type=float , required=True)
         args = parser.parse_args()
-        return json.loads(dumps(mongo.db.ride.find(
-            {"start_loc": {"$near": [args['lat'], args['lng']]}}
-        )))
+        data = ride_model.nearby_cars(args['lat'], args['lng'])
+        data = dumps(data)
+        data = json.loads(data)
+
+        for x in data:
+            x['user'] = json.loads(dumps(mongo.db.user.find_one({'_id': ObjectId(x['user_id'])})))
+
+        return {'result': data}
 
     def post(self):
         args = self.api_parser.parse_args()
@@ -57,6 +64,7 @@ class Rides(Resource):
         del args['start_lng']
         del args['dest_lat']
         del args['dest_lng']
+        args['user_id'] = current_user.get_id()
         mongo.db.ride.insert(args)
 
 api.add_resource(Rides, '/rides')

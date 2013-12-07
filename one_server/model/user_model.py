@@ -9,10 +9,11 @@
 """
 
 """
-
 from one_server import login_manager, mongo
 from functools import wraps
 from flask.ext import restful
+from flask.ext.login import UserMixin
+from flask.ext import login
 from flask import request
 from bson import ObjectId
 
@@ -44,11 +45,21 @@ def authenticate(func):
 
 @login_manager.user_loader
 def load_user(token):
-    try:
-        oi = ObjectId(token)
-    except:
-        return
+    #find token in nickname:
+    one = mongo.db.user.find_one({'nickname': token})
+    if one:
+        return login_user(token)
+    else:
+        try:
+            oi = ObjectId(token)
+        except:
+            return
+        one = mongo.db.user.find_one({'_id': oi})
+        if one:
+            return login_user(token)
 
-    c = mongo.db.user.find({'_id': oi})
-    return c.count() != 0
-
+def login_user(token):
+    um = UserMixin()
+    um.id = token
+    login.login_user(um)
+    return um
