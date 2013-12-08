@@ -66,6 +66,7 @@ class Rides(Resource):
         del args['dest_lng']
         args['user_id'] = current_user.get_id()
         mongo.db.ride.insert(args)
+        return '', 200
 
 class SearchRides(Resource):
 

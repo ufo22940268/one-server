@@ -13,6 +13,7 @@ def deploy():
         with prefix('source /usr/bin/virtualenvwrapper.sh'):
             with prefix('workon one-server'):
                 run("bash kill.sh")
+                run("pip install -r requirements.txt")
                 #run("./manage.py init")
                 run('gunicorn -w 4 -b 127.0.0.1:10000 run:app')
 
