@@ -8,6 +8,7 @@ from flask.ext.cache import Cache
 from flask.ext.pymongo import PyMongo
 from flask.ext.restful import reqparse, abort, Api, Resource
 from pymongo import GEO2D
+from bson import ObjectId
 
 from one_server import assets
 from flask.ext.login import LoginManager
@@ -60,8 +61,8 @@ def create_app(object_name, env="prod"):
     import controllers.user 
 
     with app.app_context():
-        if not mongo.db.user.find_one({'nickname': 'asdf'}):
-            mongo.db.user.insert({"nickname": 'asdf'})
+        if not mongo.db.user.find_one({"_id": ObjectId("52a468d91d24ead09274284d")}):
+            mongo.db.user.insert({"nickname": 'asdf', "_id": ObjectId("52a468d91d24ead09274284d")})
         mongo.db.ride.create_index([("start_loc", GEO2D)])
         mongo.db.ride.create_index([("dest_loc", GEO2D)])
 
