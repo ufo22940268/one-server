@@ -24,6 +24,7 @@ context.push()
 #clear all data.
 mongo.db.user.remove()
 mongo.db.comment.remove()
+mongo.db.ride.remove()
 
 token = str(mongo.db.user.insert({'nickname': 'asdf'}))
 

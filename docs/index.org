@@ -8,15 +8,16 @@
 - 如果出错的话，header中的http status就不是200， 如果正常就为200.在出错的情况下会返回一个message字段，里面就是错误信息描述。
 - 返回的数据同意放在result中。
 
+
 * 搭车信息
   
-** 查看搭车信息
+** 看看谁能带我
 
 *** 请求方法
 GET
 
 *** 路径
-/ride
+/rides
 
 *** 请求参数
 | name | type | required | desc     |
@@ -24,13 +25,13 @@ GET
 | lat  | str  | True     | 当前坐标 |
 | lng  | str  | True     | 当前坐标 | 
 
-** 上传新的搭车信息 
+** 车主发布拼车服务 
 
 *** 请求方法
 POST
 
 *** 路径
-/ride
+/rides
 
 *** 请求参数
 | name           | type  | required | desc        |
@@ -68,7 +69,7 @@ POST
 | age_segment | int   | required | 年龄段   |
 
 
-* 评论
+* 我的评价
 
 ** 添加评论
 *** 请求方法

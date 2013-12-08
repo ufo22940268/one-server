@@ -67,4 +67,18 @@ class Rides(Resource):
         args['user_id'] = current_user.get_id()
         mongo.db.ride.insert(args)
 
+class SearchRides(Resource):
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('start_lat'      , type=float , required=False)
+        parser.add_argument('start_lng'      , type=float , required=False)
+        parser.add_argument('dest_lat'      , type=float , required=False)
+        parser.add_argument('dest_lng'      , type=float , required=False)
+        args = parser.parse_args()
+        # import pdb; pdb.set_trace()
+        data = ride_model.search_cars(args)
+        return {'result': data}
+
 api.add_resource(Rides, '/rides')
+api.add_resource(SearchRides, '/search_rides')

@@ -63,7 +63,7 @@ def create_app(object_name, env="prod"):
         if not mongo.db.user.find_one({'nickname': 'asdf'}):
             mongo.db.user.insert({"nickname": 'asdf'})
         mongo.db.ride.create_index([("start_loc", GEO2D)])
-        mongo.db.ride.create_index([("desc_loc", GEO2D)])
+        mongo.db.ride.create_index([("dest_loc", GEO2D)])
 
     return app
 
@@ -72,5 +72,5 @@ if __name__ == '__main__':
     # shell var APPNAME_ENV
     env = os.environ.get('APPNAME_ENV', 'prod')
     app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)
-
     app.run()
+    

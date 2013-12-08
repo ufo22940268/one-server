@@ -9,10 +9,25 @@
 """
 
 """
+
 from one_server import login_manager, mongo
+from one_server.common_util import *
 
 def nearby_cars(lat, lng):
     data = mongo.db.ride.find(
         {"start_loc": {"$near": [lat, lng]}}
     )
     return data
+
+def search_cars(req_params):
+    if req_params.get('start_lat') and req_params.get('start_lng'):
+        data = mongo.db.ride.find(
+            {"start_loc": {"$near": [req_params['start_lat'], req_params['start_lng']]}}
+        )
+        return cursor_to_dict(data)
+        
+    if req_params.get('dest_lat') and req_params.get('dest_lng'):
+        data = mongo.db.ride.find(
+            {"dest_loc": {"$near": [req_params['dest_lat'], req_params['dest_lng']]}}
+        )
+        return cursor_to_dict(data)

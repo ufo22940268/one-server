@@ -9,9 +9,6 @@ from base import *
 
 class TestRide:
 
-    @classmethod
-    def setup_class(cls):
-        mongo.db.ride.remove()
 
     def test_list(self):
         #params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
@@ -54,3 +51,20 @@ class TestRide:
 
         rv = test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200
+        
+    def test_search(self):
+        params={'start_lat': 5.0, 'start_lng': 5.0}
+        rv = test_app.get(make_url_end("search_rides", params))
+        assert rv.status_code == 200
+        assert len(parse_json(rv.data)['result'])
+
+        params={'dest_lat': 5.0, 'dest_lng': 5.0}
+        rv = test_app.get(make_url_end("search_rides", params))
+        assert rv.status_code == 200
+        assert len(parse_json(rv.data)['result'])
+
+        params={'start_lat': 5.0, 'start_lng': 5.0,
+                'dest_lat': 5.0, 'dest_lng': 5.0}
+        rv = test_app.get(make_url_end("search_rides", params))
+        assert rv.status_code == 200
+        assert len(parse_json(rv.data)['result'])
