@@ -58,6 +58,11 @@ class TestUser(TestBase):
         data, code = self.post('validate_phone', params)
         assert code != 200
 
+    def test_submit_password(self):
+        params = {'password': 'asdf'}
+        data, code = self.post('submit_password', params)
+        assert code == 200
+
 
 class TestComment(TestBase):
 

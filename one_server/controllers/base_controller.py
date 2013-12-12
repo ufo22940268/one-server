@@ -11,13 +11,18 @@
 """
 from flask.ext.restful import Resource
 from flask.ext.login import current_user
+from bson import ObjectId
 
 
 class BaseResource(Resource):
+
     def get_user_id(self):
         return current_user.get_id()
 
-    def result_ok(self, data):
+    def get_user_object_id(self):
+        return ObjectId(self.get_user_id())
+
+    def result_ok(self, data=''):
         return {'result': data}, 200
 
     def result_error(self):

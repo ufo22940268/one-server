@@ -1,0 +1,17 @@
+  /Users/ccheng/workspace/one-server/one_server:
+  total used in directory 64 available 37460752
+D -rw-r--r--+  1 ccheng  staff     0 Dec 13 06:49  *Minibuf-1*
+  drwxrwxrwx+ 15 ccheng  staff   510 Dec 13 06:49 .
+  drwxrwxrwx+ 19 ccheng  staff   646 Dec 13 06:48 ..
+  -rwxrwxrwx+  1 ccheng  staff  2391 Dec 12 19:05 __init__.py
+  -rw-r--r--+  1 ccheng  staff  2785 Dec 12 19:11 __init__.pyc
+  -rwxrwxrwx+  1 ccheng  staff   365 Dec  5 20:15 assets.py
+  -rwxrwxrwx+  1 ccheng  staff   537 Dec  6 10:00 assets.pyc
+  -rwxrwxrwx+  1 ccheng  staff   351 Dec  7 19:58 common_util.py
+  -rwxrwxrwx+  1 ccheng  staff   516 Dec  7 19:58 common_util.pyc
+  drwxrwxrwx+ 13 ccheng  staff   442 Dec 12 21:01 controllers
+  drwxrwxrwx+  8 ccheng  staff   272 Dec 12 12:59 model
+  -rwxrwxrwx+  1 ccheng  staff   499 Dec  5 20:15 settings.py
+  -rwxrwxrwx+  1 ccheng  staff   942 Dec  6 10:00 settings.pyc
+  drwxrwxrwx+  6 ccheng  staff   204 Dec  9 17:16 static
+  drwxrwxrwx+  5 ccheng  staff   170 Dec  5 20:15 templates

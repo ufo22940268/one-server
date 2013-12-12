@@ -74,7 +74,7 @@ POST
 | age_segment | int   | required | 年龄段   |
 
 
-** DONE 用户登陆
+** 用户登陆
 
 *** 请求方法
 POST
@@ -87,6 +87,38 @@ POST
 |----------+------+----------+--------|
 | username | str  | True     | 用户名 |
 | password | str  | True     | 密码   |
+
+
+** 用户注册(验证手机号码)
+
+*** 请求方法
+POST
+
+*** 路径
+/validate_phone
+
+*** 请求参数
+| name  | type | required | desc     |
+|-------+------+----------+----------|
+| phone | str  | True     | 手机号码 |
+| code  | str  | True     | 验证码  |
+
+*** 附加说明
+因为现在短信发送的接口没有拿到。所以一律判断验证码是asdf就验证通过.
+
+** 提交密码
+
+*** 请求方法
+POST
+
+*** 路径
+/submit_password
+
+*** 请求参数
+| name     | type | required | desc |
+|----------+------+----------+------|
+| passowrd | str  | True     | 密码 |
+
 
 * 我的评价
 
@@ -118,14 +150,15 @@ GET
 
 
 
-* <2013-12-12 Thu>
+
 ** TODO 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中
    - [X] 上传头像
    - [X] 性别
-   - [ ] 星级
+   - [ ] 星级 需要问李伟
 
-** TODO 用户注册接口
+** DONE 用户注册接口
+   CLOSED: [2013-12-13 Fri 07:46]
    - [X] 验证手机
-   - [ ] 输入密码
+   - [X] 输入密码
 
 ** TODO 在projectile中添加debug的接口，用pdb完成
