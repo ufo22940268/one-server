@@ -61,8 +61,12 @@ class Login(BaseResource):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True)
         parser.add_argument('password', type=str, required=True)
-        mongo.db.user.find_one({'username'})
-        return '', 200
+        args = parser.parse_args()
+        user = mongo.db.user.find_one({'username': args['username']})
+        if user:
+            return self.result_ok({'token': str(user['_id'])})
+        else:
+            return self.result_error()
 
 api.add_resource(User, '/users')
 api.add_resource(Comment, '/comments')

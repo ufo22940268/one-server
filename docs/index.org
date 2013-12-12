@@ -17,7 +17,7 @@
 
 
 * 搭车信息
-  
+
 ** 看看谁能带我
 
 *** 请求方法
@@ -30,9 +30,9 @@ GET
 | name | type | required | desc     |
 |------+------+----------+----------|
 | lat  | str  | True     | 当前坐标 |
-| lng  | str  | True     | 当前坐标 | 
+| lng  | str  | True     | 当前坐标 |
 
-** 车主发布拼车服务 
+** 车主发布拼车服务
 
 *** 请求方法
 POST
@@ -57,7 +57,7 @@ POST
 
 * 用户信息
 
-** 上传新的用户信息 
+** 上传新的用户信息
 
 *** 请求方法
 POST
@@ -68,7 +68,7 @@ POST
 *** 请求参数
 | name        | type  | required | desc     |
 |-------------+-------+----------+----------|
-| nickname    | str   | required | 昵称     |
+| nickname    | str   | required | 昵称   |
 | status      | str   | required | 个性签名 |
 | lat         | float | require  | 所在地   |
 | lng         | float | required | 所在地   |
@@ -76,7 +76,7 @@ POST
 | age_segment | int   | required | 年龄段   |
 
 
-** TODO 用户登陆
+** DONE 用户登陆
 
 *** 请求方法
 POST
@@ -89,7 +89,6 @@ POST
 |----------+------+----------+--------|
 | username | str  | True     | 用户名 |
 | password | str  | True     | 密码   |
-
 
 * 我的评价
 
@@ -119,4 +118,6 @@ GET
 |---------+------+----------+----------|
 | user_id | str  | True     | 用户id   |
 
-* TODO 用户登陆功能
+* 未完成的任务
+
+** TODO 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中

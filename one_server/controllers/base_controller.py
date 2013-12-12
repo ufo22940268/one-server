@@ -9,9 +9,16 @@
 """
 
 """
-from flask.ext.restful import reqparse, abort, Api, Resource
+from flask.ext.restful import Resource
 from flask.ext.login import current_user
+
 
 class BaseResource(Resource):
     def get_user_id(self):
         return current_user.get_id()
+
+    def result_ok(self, data):
+        return {'result': data}, 200
+
+    def result_error(self):
+        return '', 400

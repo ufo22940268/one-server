@@ -23,11 +23,15 @@ class TestUser(TestBase):
         rv = test_app.post('users', data=params)
         assert rv.status_code == 200
 
-    # def test_login(self):
-    #     params = {'username': 'asdf', 'password': 'asdf'}
-    #     js, status = self.post('login', params)
-    #     assert status == 200
+    def test_login(self):
+        params = {'username': 'asdf', 'password': 'asdf'}
+        js, status = self.post('login', params)
+        assert status == 200
+        assert js['result']['token']
 
+        params = {'username': 'asdfasdfa', 'password': 'asdf'}
+        js, status = self.post('login', params)
+        assert status == 400
 
 
 class TestComment(TestBase):
