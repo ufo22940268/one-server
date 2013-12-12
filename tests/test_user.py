@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from one_server import mongo
 from base import test_app, TestBase, token2, token
+from StringIO import StringIO
+import pytest
 
 
 class TestUser(TestBase):
@@ -19,9 +21,12 @@ class TestUser(TestBase):
             'sex': 0,
             'age_segment': 80,
         }
-
+        params["image"] = StringIO('Foo bar baz'), 'image'
         rv = test_app.post('users', data=params)
         assert rv.status_code == 200
+
+        user = mongo.db.user.find_one({'nickname': 't'})
+        assert user['portrait_url']
 
     def test_login(self):
         params = {'username': 'asdf', 'password': 'asdf'}
@@ -33,6 +38,16 @@ class TestUser(TestBase):
         js, status = self.post('login', params)
         assert status == 400
 
+    @pytest.mark.current
+    def test_image(args):
+        params = dict()
+        params["image"] = StringIO('Foo bar baz'), 'image'
+        rv = test_app.post('test', data=params)
+        # rv = test_app.post('test', data={
+        #     'asdfasdf': 'asdf',
+        #     'image': (StringIO('my file contents'), 'hello world.txt'),
+        # })
+        assert rv.status_code == 200
 
 class TestComment(TestBase):
 

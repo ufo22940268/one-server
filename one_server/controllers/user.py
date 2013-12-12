@@ -14,7 +14,8 @@ from one_server import api, mongo
 from bson import ObjectId
 from one_server.model import user_model
 from one_server.controllers.base_controller import BaseResource
-
+import werkzeug.datastructures
+import arrow
 
 class User(Resource):
 
@@ -26,7 +27,15 @@ class User(Resource):
         parser.add_argument('lng', type=float, required=True)
         parser.add_argument('sex', type=int, required=True)
         parser.add_argument('age_segment', type=int, required=True)
+        parser.add_argument('image',
+                            type=werkzeug.datastructures.FileStorage,
+                            location='files')
         args = parser.parse_args()
+        filename = str(arrow.utcnow().timestamp)
+        args['image'].save('one_server/static/public/files/%s' % filename)
+        image_url = '/static/public/files/%s' % filename
+        args['portrait_url'] = image_url
+        del args['image']
         loc = [args['lat'], args['lng']]
         args['loc'] = loc
         del args['lat']
@@ -68,6 +77,18 @@ class Login(BaseResource):
         else:
             return self.result_error()
 
+
+class Test(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('image',
+                            type=werkzeug.datastructures.FileStorage,
+                            location='files')
+        args = parser.parse_args()
+
+
 api.add_resource(User, '/users')
 api.add_resource(Comment, '/comments')
 api.add_resource(Login, '/login')
+api.add_resource(Test, '/test')

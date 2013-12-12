@@ -37,6 +37,9 @@ testride:
 testuser:
 	py.test -s -x tests/test_user.py
 
+testcurrent:
+	py.test -s -x tests/test_user.py -m current
+
 
 server:
 	./manage.py runserver
