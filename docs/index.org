@@ -13,6 +13,7 @@
    52a468d91d24ead09274284d
 
    在所有需要传user_id或者token的地方都传这个值就可以了。
+   除了login接口之外都需要传token。
 
 
 * 搭车信息
@@ -75,6 +76,21 @@ POST
 | age_segment | int   | required | 年龄段   |
 
 
+** TODO 用户登陆
+
+*** 请求方法
+POST
+
+*** 路径
+/login
+
+*** 请求参数
+| name     | type | required | desc   |
+|----------+------+----------+--------|
+| username | str  | True     | 用户名 |
+| password | str  | True     | 密码   |
+
+
 * 我的评价
 
 ** 添加评论
@@ -102,6 +118,5 @@ GET
 | name    | type | required | desc     |
 |---------+------+----------+----------|
 | user_id | str  | True     | 用户id   |
-
 
 * TODO 用户登陆功能
