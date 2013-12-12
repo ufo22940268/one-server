@@ -21,6 +21,14 @@ api = Api(catch_all_404s=True)
 mongo = PyMongo()
 login_manager = LoginManager()
 
+def init_db():
+    if not mongo.db.user.find_one({'_id': ObjectId('52a468d91d24ead09274284d')}):
+        mongo.db.user.insert({'username': 'asdf', 'password': 'asdf', 'nickname': 'asdf', '_id': ObjectId('52a468d91d24ead09274284d')})
+        mongo.db.ride.create_index([('start_loc', GEO2D)])
+        mongo.db.ride.create_index([('dest_loc', GEO2D)])
+
+
+
 def create_app(object_name, env="prod"):
     """
     An flask application factory, as explained here:
@@ -56,15 +64,12 @@ def create_app(object_name, env="prod"):
     # register our blueprints
     from controllers.main import main
     app.register_blueprint(main)
-    
-    import controllers.ride 
-    import controllers.user 
+
+    import controllers.ride
+    import controllers.user
 
     with app.app_context():
-        if not mongo.db.user.find_one({"_id": ObjectId("52a468d91d24ead09274284d")}):
-            mongo.db.user.insert({"nickname": 'asdf', "_id": ObjectId("52a468d91d24ead09274284d")})
-        mongo.db.ride.create_index([("start_loc", GEO2D)])
-        mongo.db.ride.create_index([("dest_loc", GEO2D)])
+        init_db()
 
     return app
 
@@ -74,4 +79,3 @@ if __name__ == '__main__':
     env = os.environ.get('APPNAME_ENV', 'prod')
     app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)
     app.run()
-    

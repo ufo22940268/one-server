@@ -45,7 +45,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .I18NSPHINXOPTS20,897
 
 fabfile.py,67
 def deploy():deploy8,165
-def kill_unicorn():kill_unicorn19,569
+def kill_unicorn():kill_unicorn20,624
 
 kill.sh,0
 
@@ -56,15 +56,16 @@ env = os.environ.get('APPNAME_ENV', 'dev')env8,146
 app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app9,189
 manager = Manager(app)manager11,267
 
-one_server/__init__.py,411
-cache = Cache()cache16,410
-assets_env = Environment()assets_env18,427
-api = Api(catch_all_404s=True)api19,454
-mongo = PyMongo()mongo20,485
-login_manager = LoginManager()login_manager21,503
-def create_app(object_name, env="prod"):create_app23,535
-    env = os.environ.get('APPNAME_ENV', 'prod')env73,1950
-    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app74,1998
+one_server/__init__.py,441
+cache = Cache()cache17,436
+assets_env = Environment()assets_env19,453
+api = Api(catch_all_404s=True)api20,480
+mongo = PyMongo()mongo21,511
+login_manager = LoginManager()login_manager22,529
+def init_db():init_db24,561
+def create_app(object_name, env="prod"):create_app32,874
+    env = os.environ.get('APPNAME_ENV', 'prod')env79,2074
+    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app80,2122
 
 one_server/assets.py,244
 common_css = Bundle(common_css3,33
@@ -94,8 +95,8 @@ class Rides(Resource):Rides26,640
     def __init__(self):__init__30,708
     def get(self):get43,1606
     def post(self):post57,2120
-class SearchRides(Resource):SearchRides70,2575
-    def get(self):get72,2605
+class SearchRides(Resource):SearchRides71,2598
+    def get(self):get73,2628
 
 one_server/controllers/user.py,175
 class User(Resource):User22,511
@@ -216,37 +217,36 @@ app = one_server.create_app('one_server.settings.DevConfig', env='dev')app3,20
 
 tests/__init__.py,0
 
-tests/base.py,617
-app = create_app('one_server.settings.DevConfig', env='dev')app19,343
-test_app = app.test_client()test_app20,404
-context = app.test_request_context('/')context21,433
-token = str(mongo.db.user.insert({'nickname': 'asdf'}))token29,579
-token2 = str(mongo.db.user.insert({'nickname': 'fdsa'}))token232,693
-def make_url_end(url, params):make_url_end34,751
-def parse_json(raw):parse_json43,949
-def to_dict(c):to_dict49,1081
-class TestBase(object):TestBase53,1192
-    def post(self, end, params):post55,1217
-    def get(self, end, params = {}):get59,1355
-    def get_user_id(self):get_user_id63,1505
+tests/base.py,577
+app = create_app('one_server.settings.DevConfig', env='dev')app19,306
+test_app = app.test_client()test_app20,367
+context = app.test_request_context('/')context21,396
+token = str(mongo.db.user.find_one({'nickname': 'asdf'})['_id'])token30,563
+token2 = str(mongo.db.user.insert({'nickname': 'fdsa'}))token233,686
+def make_url_end(url, params):make_url_end36,745
+def parse_json(raw):parse_json46,944
+def to_dict(c):to_dict53,1077
+class TestBase(object):TestBase58,1189
+    def post(self, end, params):post60,1214
+    def get(self, end, params={}):get64,1344
 
 tests/test_db.py,197
 class TestDb:TestDb10,214
     def setup_class(cls):setup_class13,246
     def test_main(self):test_main16,306
     def test_geo(self):test_geo20,431
-    def test_user(self):test_user33,836
+    def test_user(self):test_user34,845
 
 tests/test_ride.py,161
 class TestRide:TestRide10,192
     def test_list(self):test_list13,210
-    def test_search(self):test_search22,523
-    def test_add(self):test_add39,1205
+    def test_add(self):test_add22,523
+    def test_search(self):test_search55,1678
 
-tests/test_user.py,286
+tests/test_user.py,287
 class TestUser:TestUser10,224
     def test_init(self):test_init12,241
     def test_add_user(self):test_add_user15,327
-class TestComment(TestBase):TestComment29,719
-    def test_do_comment(self):test_do_comment31,749
-    def test_list_comments(self):test_list_comments36,920
+class TestComment(TestBase):TestComment36,887
+    def test_do_comment(self):test_do_comment38,917
+    def test_list_comments(self):test_list_comments43,1088

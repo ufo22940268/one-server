@@ -24,6 +24,7 @@ class TestDb:
         db.places.insert({"loc": [30, 5]})
         db.places.insert({"loc": [1, 2]})
         db.places.insert({"loc": [4, 4]})
+        
     
         db.places.create_index([("loc", GEO2D)])
         l = list(db.places.find({"loc": {"$near": [1, 3]}}).limit(3))

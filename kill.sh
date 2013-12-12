@@ -6,4 +6,4 @@
 # Distributed under terms of the MIT license.
 #
 
-ps -aux | grep gunicorn | grep 10000 | awk '{print $2}' | xargs -r kill
+ps -aux | grep gunicorn | grep 20010 | awk '{print $2}' | xargs -r kill

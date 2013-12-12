@@ -16,9 +16,8 @@ from flask.ext.login import UserMixin
 from flask.ext import login
 from flask import request
 from bson import ObjectId
-from one_server.controllers.base_controller import *
-from one_server.common_util import *
-import json
+from one_server.common_util import cursor_to_dict
+
 
 def authenticate(func):
 
@@ -26,10 +25,9 @@ def authenticate(func):
     def wrapper(*args, **kwargs):
         if not getattr(func, 'authenticated', True):
             return func(*args, **kwargs)
-            
-        token = None
-        if request.args.get('token'):
-            token = request.args['token']
+            token = None
+            if request.args.get('token'):
+                token = request.args['token']
 
         if request.form.get('token'):
             token = request.form['token']
@@ -46,6 +44,7 @@ def authenticate(func):
 
     return wrapper
 
+
 @login_manager.user_loader
 def load_user(token):
     #find token in nickname:
@@ -57,15 +56,17 @@ def load_user(token):
             oi = ObjectId(token)
         except:
             return
-        one = mongo.db.user.find_one({'_id': oi})
-        if one:
-            return login_user(token)
+            one = mongo.db.user.find_one({'_id': oi})
+            if one:
+                return login_user(token)
+
 
 def login_user(token):
     um = UserMixin()
     um.id = token
     login.login_user(um)
     return um
+
 
 def get_comment(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})

@@ -15,7 +15,7 @@ def deploy():
                 run("bash kill.sh")
                 run("pip install -r requirements.txt")
                 #run("./manage.py init")
-                run('gunicorn -w 4 -b 127.0.0.1:10000 run:app')
+                run('gunicorn -w 4 -b 127.0.0.1:20010 run:app')
 
 def kill_unicorn():
     with cd('one-server'):
