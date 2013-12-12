@@ -87,8 +87,22 @@ class Test(BaseResource):
                             location='files')
         args = parser.parse_args()
 
+class ValidatePhone(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('phone', type=str, required=True)
+        parser.add_argument('code', type=str, required=True)
+        args = parser.parse_args()
+
+        if args['code'] == 'asdf':
+            return self.result_ok('')
+        else:
+            return self.result_error()
+
 
 api.add_resource(User, '/users')
 api.add_resource(Comment, '/comments')
 api.add_resource(Login, '/login')
 api.add_resource(Test, '/test')
+api.add_resource(ValidatePhone, '/validate_phone')

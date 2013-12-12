@@ -15,7 +15,6 @@
    在所有需要传user_id或者token的地方都传这个值就可以了。
    除了login接口之外都需要传token。
 
-
 * 搭车信息
 
 ** 看看谁能带我
@@ -53,7 +52,6 @@ POST
 | price          | int   | True     | 所需搭车币  |
 | people         | int   | True     | 乘车人数    |
 | comment        | str   | False    | 评论        |
-
 
 * 用户信息
 
@@ -118,13 +116,16 @@ GET
 |---------+------+----------+----------|
 | user_id | str  | True     | 用户id   |
 
-* 未完成的任务
 
 
+* <2013-12-12 Thu>
 ** TODO 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中
    - [X] 上传头像
-   - [ ] 性别
+   - [X] 性别
    - [ ] 星级
 
 ** TODO 用户注册接口
+   - [X] 验证手机
+   - [ ] 输入密码
+
 ** TODO 在projectile中添加debug的接口，用pdb完成

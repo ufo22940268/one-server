@@ -7,36 +7,45 @@ import json
 import urllib
 from base import *
 
-class TestRide:
+
+class TestRide(TestBase):
+
+    @classmethod
+    def setup_class(cls):
+        cls.insert_rides()
+
+    @classmethod
+    def insert_rides(cls):
+        for i in range(10):
+            params = {
+                'title': 't',
+                'start_off_time': '1922-02-01 21:22',
+                'wait_time': '1922-02-01 21:22',
+                'start_lat': float(i),
+                'start_lng': float(i),
+                'dest_lat': float(i),
+                'dest_lng': float(i),
+                'price': 2,
+                'people': 2,
+                'car_type': 1,
+                'comment': 'asdf',
+                'token': token,
+                }
+            rv = test_app.post('rides', data=params)
+            assert rv.status_code == 200
 
 
     def test_list(self):
         #params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
         #rv = test_app.get(make_url_end("rides", params))
         #assert rv.status_code != 200
-
-        params={'lat': 5.0, 'lng': 5.0}
-        rv = test_app.get(make_url_end("rides", params))
-        assert rv.status_code == 200
+        params = {'lat': 5.0, 'lng': 5.0}
+        data, status = self.get("rides", params)
+        assert status == 200
+        assert data['result'][0]['user']
+        assert data['result'][0]['user']['sex']
 
     def test_add(self):
-        for i in range(10):
-            params = {
-                'title'         : 't',
-                'start_off_time': '1922-02-01 21:22',
-                'wait_time'     : '1922-02-01 21:22',
-                'start_lat'     : float(i),
-                'start_lng'     : float(i),
-                'dest_lat'      : float(i),
-                'dest_lng'      : float(i),
-                'price'         : 2,
-                'people'        : 2,
-                'car_type'      : 1,
-                'comment'       : 'asdf',
-                'token'         : token,
-                }
-            rv = test_app.post('rides', data=params)
-            assert rv.status_code == 200
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
         assert rides_cursor[0]['user_id']
@@ -51,7 +60,7 @@ class TestRide:
 
         rv = test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200
-        
+
     def test_search(self):
         params={'start_lat': 5.0, 'start_lng': 5.0}
         rv = test_app.get(make_url_end("search_rides", params))

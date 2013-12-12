@@ -6,9 +6,9 @@ from flask_assets import Environment
 from webassets.loaders import PythonLoader as PythonAssetsLoader
 from flask.ext.cache import Cache
 from flask.ext.pymongo import PyMongo
-from flask.ext.restful import reqparse, abort, Api, Resource
 from pymongo import GEO2D
 from bson import ObjectId
+from flask.ext.restful import Api
 
 from one_server import assets
 from flask.ext.login import LoginManager
@@ -21,12 +21,17 @@ api = Api(catch_all_404s=True)
 mongo = PyMongo()
 login_manager = LoginManager()
 
+
 def init_db():
-    if not mongo.db.user.find_one({'_id': ObjectId('52a468d91d24ead09274284d')}):
-        mongo.db.user.insert({'username': 'asdf', 'password': 'asdf', 'nickname': 'asdf', '_id': ObjectId('52a468d91d24ead09274284d')})
+    if not mongo.db.user.find_one({'_id':
+                                   ObjectId('52a468d91d24ead09274284d')}):
+        mongo.db.user.insert({'username': 'asdf',
+                              'password': 'asdf',
+                              'nickname': 'asdf',
+                              'sex': '0',
+                              '_id': ObjectId('52a468d91d24ead09274284d')})
         mongo.db.ride.create_index([('start_loc', GEO2D)])
         mongo.db.ride.create_index([('dest_loc', GEO2D)])
-
 
 
 def create_app(object_name, env="prod"):
