@@ -25,9 +25,10 @@ def authenticate(func):
     def wrapper(*args, **kwargs):
         if not getattr(func, 'authenticated', True):
             return func(*args, **kwargs)
-            token = None
-            if request.args.get('token'):
-                token = request.args['token']
+
+        token = None
+        if request.args.get('token'):
+            token = request.args['token']
 
         if request.form.get('token'):
             token = request.form['token']
@@ -56,10 +57,9 @@ def load_user(token):
             oi = ObjectId(token)
         except:
             return
-            one = mongo.db.user.find_one({'_id': oi})
-            if one:
-                return login_user(token)
-
+        one = mongo.db.user.find_one({'_id': oi})
+        if one:
+            return login_user(token)
 
 def login_user(token):
     um = UserMixin()
