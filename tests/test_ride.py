@@ -43,6 +43,8 @@ class TestRide(TestBase):
         assert status == 200
         assert data['result'][0]['user']
         assert data['result'][0]['user']['sex']
+        assert data['result'][0]['user']['image_url']
+        assert not data['result'][0]['user'].get('password')
         assert data['result'][0]['distance'] != None
 
     def test_add(self):

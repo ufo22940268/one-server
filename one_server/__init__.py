@@ -23,15 +23,16 @@ login_manager = LoginManager()
 
 
 def init_db():
-    if not mongo.db.user.find_one({'_id':
-                                   ObjectId('52a468d91d24ead09274284d')}):
-        mongo.db.user.insert({'username': 'asdf',
-                              'password': 'asdf',
-                              'nickname': 'asdf',
-                              'sex': '0',
-                              '_id': ObjectId('52a468d91d24ead09274284d')})
-        mongo.db.ride.create_index([('start_loc', GEO2D)])
-        mongo.db.ride.create_index([('dest_loc', GEO2D)])
+    image = 'http://img.bjnews.com.cn/epaper/20130618/C08/022E31DC2098.jpg'
+    mongo.db.user.remove({'_id': ObjectId('52a468d91d24ead09274284d')})
+    mongo.db.user.insert({'username': 'asdf',
+                          'password': 'asdf',
+                          'nickname': 'asdf',
+                          'sex': '0',
+                          'image_url': image,
+                          '_id': ObjectId('52a468d91d24ead09274284d')})
+    mongo.db.ride.create_index([('start_loc', GEO2D)])
+    mongo.db.ride.create_index([('dest_loc', GEO2D)])
 
 
 def create_app(object_name, env="prod"):
