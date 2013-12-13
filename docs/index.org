@@ -147,6 +147,8 @@ POST
 
 * 我的评价
 
+
+
 * Todo list
 
 ** 添加评论
@@ -157,10 +159,9 @@ POST
 /comments
 
 *** 请求参数
-| name         | type | required | desc       |
-|--------------+------+----------+------------|
-| commentor_id | str  | True     | 评论者的id |
-| comment      | str  | True     | 评论的内容 |
+| name | type | required | desc |
+|--------------+------+----------+------------| commentor_id | str |
+|True | 评论者的id | comment | str | True | 评论的内容 |
 
 ** 查看评论某个用户的评论
 
@@ -171,22 +172,18 @@ GET
 /comments
 
 *** 请求参数
-| name    | type | required | desc     |
-|---------+------+----------+----------|
-| user_id | str  | True     | 用户id   |
+| name | type | required | desc |
+|---------+------+----------+----------| user_id | str | True | 用户
+|id |
 
 
 
 
 ** TODO 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中
-   - [X] 上传头像
-   - [X] 性别
-   - [ ] 星级 需要问李伟
+   - [X] 上传头像- [X] 性别- [ ] 星级 需要问李伟
 
 ** DONE 用户注册接口
-   CLOSED: [2013-12-13 Fri 07:46]
-   - [X] 验证手机
-   - [X] 输入密码
+   CLOSED: [2013-12-13 Fri 07:46] - [X] 验证手机- [X] 输入密码
 
 ** TODO 在projectile中添加debug的接口，用pdb完成
 
@@ -197,3 +194,5 @@ GET
 
 ** TODO 性别、头像图片链接、星级个数都没看见
 ** TODO 还有   出发地  和   目的地能给文字吗
+** TODO 没找到提bug的地方  直接说吧   用户手机登陆  使先post手机号   然后才能获得验证码的   不能一起提交的
+** TODO 好像还缺个属性   我还得提交个车辆类型   这个是需求改动后加的
