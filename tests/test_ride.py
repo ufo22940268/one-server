@@ -34,8 +34,7 @@ class TestRide(TestBase):
             rv = test_app.post('rides', data=params)
             assert rv.status_code == 200
 
-
-    def test_list(self):
+    def test_list_ride(self):
         #params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
         #rv = test_app.get(make_url_end("rides", params))
         #assert rv.status_code != 200
@@ -44,6 +43,7 @@ class TestRide(TestBase):
         assert status == 200
         assert data['result'][0]['user']
         assert data['result'][0]['user']['sex']
+        assert data['result'][0]['distance'] != None
 
     def test_add(self):
         rides_cursor = mongo.db.ride.find()
@@ -62,17 +62,17 @@ class TestRide(TestBase):
         assert rv.status_code != 200
 
     def test_search(self):
-        params={'start_lat': 5.0, 'start_lng': 5.0}
+        params = {'start_lat': 5.0, 'start_lng': 5.0}
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
 
-        params={'dest_lat': 5.0, 'dest_lng': 5.0}
+        params = {'dest_lat': 5.0, 'dest_lng': 5.0}
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
 
-        params={'start_lat': 5.0, 'start_lng': 5.0,
+        params = {'start_lat': 5.0, 'start_lng': 5.0,
                 'dest_lat': 5.0, 'dest_lng': 5.0}
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200

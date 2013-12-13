@@ -53,6 +53,20 @@ POST
 | people         | int   | True     | 乘车人数    |
 | comment        | str   | False    | 评论        |
 
+*** 返回
+| name           | desc       |
+|----------------+------------|
+| title          | 标题       |
+| start_off_time | 搭车时间   |
+| wait_time      | 可等待时间 |
+| start_loc      | 乘车地点   |
+| dest_loc       | 目的地     |
+| price          | 所需搭车币 |
+| people         | 乘车人数   |
+| comment        | 评论       |
+| distance       | 距离       |
+
+
 * 用户信息
 
 ** 上传新的用户信息
@@ -162,3 +176,7 @@ GET
    - [X] 输入密码
 
 ** TODO 在projectile中添加debug的接口，用pdb完成
+
+** 看看谁能带我
+*** DONE 还有要返回车主的坐标属性，因为我点击看地图要显示车主
+    CLOSED: [2013-12-13 Fri 08:06]
