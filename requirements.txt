@@ -30,3 +30,4 @@ flask-pymongo
 flask-restful
 flask-login
 arrow
+requests

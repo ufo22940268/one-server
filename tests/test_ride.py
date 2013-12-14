@@ -17,14 +17,16 @@ class TestRide(TestBase):
     @classmethod
     def insert_rides(cls):
         for i in range(10):
+            lat = 39.983424 + float(i)/(10**4)
+            lng = 116.322987 + float(i)/(10**4)
             params = {
                 'title': 't',
                 'start_off_time': '1922-02-01 21:22',
                 'wait_time': '1922-02-01 21:22',
-                'start_lat': float(i),
-                'start_lng': float(i),
-                'dest_lat': float(i),
-                'dest_lng': float(i),
+                'start_lat': lat,
+                'start_lng': lng,
+                'dest_lat': lat,
+                'dest_lng': lng,
                 'price': 2,
                 'people': 2,
                 'car_type': 1,
@@ -35,17 +37,18 @@ class TestRide(TestBase):
             assert rv.status_code == 200
 
     def test_list_ride(self):
-        #params={'lat': 5.0, 'lng': 5.0, 'token': 'aa'}
-        #rv = test_app.get(make_url_end("rides", params))
-        #assert rv.status_code != 200
         params = {'lat': 5.0, 'lng': 5.0}
         data, status = self.get("rides", params)
         assert status == 200
-        assert data['result'][0]['user']
-        assert data['result'][0]['user']['sex']
-        assert data['result'][0]['user']['image_url']
-        assert not data['result'][0]['user'].get('password')
-        assert data['result'][0]['distance'] != None
+        first = data['result'][0]
+        assert first['user']
+        assert first['user']['sex']
+        assert first['user']['image_url']
+        assert not first['user'].get('password')
+        assert first['distance'] is not None
+
+        assert first.get('start_addr')
+        assert first.get('dest_addr')
 
     def test_add(self):
         rides_cursor = mongo.db.ride.find()
@@ -55,10 +58,6 @@ class TestRide(TestBase):
         rv = test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
         assert len(js)
-
-        one = js['result'][0]
-        assert one['start_loc'][0] == 5
-        #assert one['user']
 
         rv = test_app.post('rides', data={'a': 0})
         assert rv.status_code != 200

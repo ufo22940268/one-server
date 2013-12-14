@@ -12,7 +12,7 @@
 import math
 import json
 from bson.json_util import dumps
-
+import requests
 
 def cursor_to_dict(c):
     """Convert mongodb cursor object to python dict object"""
@@ -51,3 +51,13 @@ def distance_on_unit_sphere(lat1, long1, lat2, long2):
     # Remember to multiply arc by the radius of the earth
     # in your favorite set of units to get length.
     return arc*6373/3600
+
+def readable_address(lat, lng):
+    params = {
+        'ak': 'w1bKk7oIEvCg4Gmrs0QquUoU',
+        'pois': 1,
+        'location': "%f,%f" % (lat, lng),
+        'output': 'json'
+    }
+    r = requests.get('http://api.map.baidu.com/geocoder/v2/', params=params)
+    return r.json()['result']['addressComponent']['street']

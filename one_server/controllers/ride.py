@@ -23,6 +23,7 @@ from functools import wraps
 from one_server.model import ride_model
 from bson import ObjectId
 from one_server.common_util import distance_on_unit_sphere
+from one_server import common_util
 
 
 class Rides(Resource):
@@ -65,6 +66,8 @@ class Rides(Resource):
         dest_loc = [args['dest_lat'], args['dest_lng']]
         args['start_loc'] = start_loc
         args['dest_loc'] = dest_loc
+        args['start_addr'] = common_util.readable_address(args['start_lat'], args['start_lng'])
+        args['dest_addr'] = common_util.readable_address(args['dest_lat'], args['dest_lng'])
         del args['start_lat']
         del args['start_lng']
         del args['dest_lat']

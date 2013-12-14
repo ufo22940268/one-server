@@ -39,6 +39,8 @@ GET
 | wait_time      | 可等待时间           |
 | start_loc      | 乘车地点             |
 | dest_loc       | 目的地               |
+| start_addr     | 可阅读的乘车地点     |
+| dest_addr      | 可阅读的目的地       |
 | price          | 所需搭车币           |
 | people         | 乘车人数             |
 | comment        | 评论                 |
@@ -198,3 +200,4 @@ GET
 ** TODO 还有   出发地  和   目的地能给文字吗
 ** TODO 没找到提bug的地方  直接说吧   用户手机登陆  使先post手机号   然后才能获得验证码的   不能一起提交的
 ** TODO 好像还缺个属性   我还得提交个车辆类型   这个是需求改动后加的
+** TODO 服务器用debug模式部署
