@@ -43,6 +43,8 @@ class Rides(Resource):
         self.api_parser.add_argument('price'          , type=int   , required=True)
         self.api_parser.add_argument('people'         , type=int   , required=True)
         self.api_parser.add_argument('comment'        , type=str)
+        self.api_parser.add_argument('debug'        , type=int)
+        self.api_parser.add_argument('car_type'        , type=unicode)
 
     def get(self):
         parser = reqparse.RequestParser()
@@ -66,8 +68,13 @@ class Rides(Resource):
         dest_loc = [args['dest_lat'], args['dest_lng']]
         args['start_loc'] = start_loc
         args['dest_loc'] = dest_loc
-        args['start_addr'] = common_util.readable_address(args['start_lat'], args['start_lng'])
-        args['dest_addr'] = common_util.readable_address(args['dest_lat'], args['dest_lng'])
+        if args.get('debug'):
+            args['start_addr'] = u'测试_杭州'
+            args['dest_addr'] = u'测试_杭州'
+        else:
+            args['start_addr'] = common_util.readable_address(args['start_lat'], args['start_lng'])
+            args['dest_addr'] = common_util.readable_address(args['dest_lat'], args['dest_lng'])
+
         del args['start_lat']
         del args['start_lng']
         del args['dest_lat']

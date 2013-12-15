@@ -100,6 +100,14 @@ class ValidatePhone(BaseResource):
         else:
             return self.result_error()
 
+class ValidateCode(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('phone', type=str, required=True)
+        args = parser.parse_args()
+        return self.result_ok({'code': 'asdf'})
+
 
 class SubmitPassword(BaseResource):
 
@@ -117,4 +125,5 @@ api.add_resource(Comment, '/comments')
 api.add_resource(Login, '/login')
 api.add_resource(Test, '/test')
 api.add_resource(ValidatePhone, '/validate_phone')
+api.add_resource(ValidateCode, '/validate_code')
 api.add_resource(SubmitPassword, '/submit_password')

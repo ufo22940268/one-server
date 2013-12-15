@@ -31,7 +31,9 @@ class TestRide(TestBase):
                 'people': 2,
                 'car_type': 1,
                 'comment': 'asdf',
+                'debug': 1,
                 'token': token,
+                'car_type': u'自驾车'
                 }
             rv = test_app.post('rides', data=params)
             assert rv.status_code == 200
@@ -46,6 +48,7 @@ class TestRide(TestBase):
         assert first['user']['image_url']
         assert not first['user'].get('password')
         assert first['distance'] is not None
+        assert first['car_type'] == u'自驾车'
 
         assert first.get('start_addr')
         assert first.get('dest_addr')

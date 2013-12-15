@@ -13,8 +13,8 @@ def home():
 
 @main.route('/wtform', methods=['GET', 'POST'])
 def wtform():
-    form = MyForm()
 
+    form = MyForm()
     if request.method == 'GET':
         return render_template('wtform_example.html', form=form)
     elif request.method == 'POST':

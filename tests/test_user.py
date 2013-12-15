@@ -49,6 +49,11 @@ class TestUser(TestBase):
         # })
         assert rv.status_code == 200
 
+    def test_validate_code(self):
+        params = {'phone': '18668032931'}
+        data, code = self.post('validate_code', params)
+        assert code == 200
+
     def test_validate_phone(self):
         params = {'phone': '18668032931', 'code': 'asdf'}
         data, code = self.post('validate_phone', params)
