@@ -28,6 +28,11 @@ class TestUser(TestBase):
         user = mongo.db.user.find_one({'nickname': 't'})
         assert user['portrait_url']
 
+    def test_get_user(self):
+        data, status_code = self.get('user')
+        assert status_code == 200
+        assert data['result']
+
     def test_login(self):
         params = {'username': 'asdf', 'password': 'asdf'}
         js, status = self.post('login', params)

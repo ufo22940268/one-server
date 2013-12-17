@@ -13,6 +13,7 @@ from flask.ext.restful import reqparse, Resource
 from one_server import api, mongo
 from bson import ObjectId
 from one_server.model import user_model
+from one_server import common_util
 from one_server.controllers.base_controller import BaseResource
 import werkzeug.datastructures
 import arrow
@@ -43,6 +44,14 @@ class User(Resource):
 
         mongo.db.user.insert(args)
 
+class SingleUser(BaseResource):
+
+    def get(self):
+        uid = self.get_user_id()
+        user = mongo.db.user.find_one({'_id': ObjectId(uid)})
+        user = common_util.cursor_to_dict(user)
+        del user['password']
+        return self.result_ok(user)
 
 class Comment(BaseResource):
 
@@ -121,6 +130,7 @@ class SubmitPassword(BaseResource):
 
 
 api.add_resource(User, '/users')
+api.add_resource(SingleUser, '/user')
 api.add_resource(Comment, '/comments')
 api.add_resource(Login, '/login')
 api.add_resource(Test, '/test')
