@@ -49,9 +49,18 @@ class TestRide(TestBase):
         assert not first['user'].get('password')
         assert first['distance'] is not None
         assert first['car_type'] == u'自驾车'
+        assert first['rating']
 
         assert first.get('start_addr')
         assert first.get('dest_addr')
+
+    def test_pageination(self):
+        params = {'lat': 5.0, 'lng': 5.0, 'page': 1, 'page_size': 2}
+        data, status = self.get("rides", params)
+        assert len(data['result']) == 2
+        assert data['page']
+        assert data['page_size']
+
 
     def test_add(self):
         rides_cursor = mongo.db.ride.find()

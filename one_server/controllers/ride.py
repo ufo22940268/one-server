@@ -24,9 +24,10 @@ from one_server.model import ride_model
 from bson import ObjectId
 from one_server.common_util import distance_on_unit_sphere
 from one_server import common_util
+from one_server.controllers.base_controller import BaseResource
 
 
-class Rides(Resource):
+class Rides(BaseResource):
 
 
     method_decorators = [authenticate]
@@ -48,10 +49,11 @@ class Rides(Resource):
 
     def get(self):
         parser = reqparse.RequestParser()
+        common_util.setup_pageinfo(parser)
         parser.add_argument('lat'      , type=float , required=True)
         parser.add_argument('lng'      , type=float , required=True)
         args = parser.parse_args()
-        data = ride_model.nearby_cars(args['lat'], args['lng'])
+        data = ride_model.nearby_cars(args['lat'], args['lng'], args)
         data = dumps(data)
         data = json.loads(data)
 
@@ -60,7 +62,10 @@ class Rides(Resource):
             del x['user']['password']
             x['distance'] = distance_on_unit_sphere(args['lat'], args['lng'], float(x['dest_loc'][0]), float(x['dest_loc'][1]))
 
-        return {'result': data}
+            #Mock
+            x['rating'] = 3
+
+        return self.result_ok(data, pageinfo=args)
 
     def post(self):
         args = self.api_parser.parse_args()

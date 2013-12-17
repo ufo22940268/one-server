@@ -61,3 +61,17 @@ def readable_address(lat, lng):
     }
     r = requests.get('http://api.map.baidu.com/geocoder/v2/', params=params)
     return r.json()['result']['addressComponent']['street']
+
+def setup_pageinfo(parser):
+    parser.add_argument('page', type=int, default=1)
+    parser.add_argument('page_size', type=int, default=10)
+
+def page(cursor, pageinfo):
+    if cursor:
+        cursor.skip((pageinfo['page'] - 1)*pageinfo['page_size']).limit(pageinfo['page_size'])
+
+    return cursor
+
+def append_pageinfo(rt, pageinfo):
+    rt['page'] = pageinfo['page']
+    rt['page_size'] = pageinfo['page_size']

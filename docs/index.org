@@ -15,6 +15,23 @@
    在所有需要传user_id或者token的地方都传这个值就可以了。
    除了login接口之外都需要传token。
 
+** 分页
+
+所有返回列表的接口都支持分页，分页的使用方法如下：
+
+*** 请求参数
+| name      | type | required | desc         |
+|-----------+------+----------+--------------|
+| page      | int  | true     | 当前页数     |
+| page_size | int  | true     | 每页数据条数 |
+
+*** 返回
+| name      | desc         |
+|-----------+--------------|
+| page      | 当前页数     |
+| page_size | 每页数据条数 |
+
+
 * 搭车信息
 
 ** 看看谁能带我
@@ -32,21 +49,23 @@ GET
 | lng  | str  | True     | 当前坐标 |
 
 *** 返回
-| name           | desc                 |
-|----------------+----------------------|
-| title          | 标题                 |
-| start_off_time | 搭车时间             |
-| wait_time      | 可等待时间           |
-| start_loc      | 乘车地点             |
-| dest_loc       | 目的地               |
-| start_addr     | 可阅读的乘车地点     |
-| dest_addr      | 可阅读的目的地       |
-| price          | 所需搭车币           |
-| people         | 乘车人数             |
-| comment        | 评论                 |
-| distance       | 距离                 |
-| user           | 用户信息（参见下面） |
-| car_type       | 车辆类型             |
+| name           | desc                  |
+|----------------+-----------------------|
+| title          | 标题                  |
+| start_off_time | 搭车时间              |
+| wait_time      | 可等待时间            |
+| start_loc      | 乘车地点              |
+| dest_loc       | 目的地                |
+| start_addr     | 可阅读的乘车地点      |
+| dest_addr      | 可阅读的目的地        |
+| price          | 所需搭车币            |
+| people         | 乘车人数              |
+| comment        | 评论                  |
+| distance       | 距离                  |
+| user           | 用户信息（参见下面）  |
+| car_type       | 车辆类型              |
+| rating         | 星级（返回一个mock值) |
+
 
 
 **** 用户信息
@@ -95,14 +114,15 @@ POST
 /user
 
 *** 请求参数
-| name        | type  | required | desc     |
-|-------------+-------+----------+----------|
-| nickname    | str   | required | 昵称   |
-| status      | str   | required | 个性签名 |
-| lat         | float | require  | 所在地   |
-| lng         | float | required | 所在地   |
-| sex         | int   | required | 性别     |
-| age_segment | int   | required | 年龄段   |
+| name        | type   | required | desc     |
+|-------------+--------+----------+----------|
+| nickname    | str    | required | 昵称     |
+| status      | str    | required | 个性签名 |
+| lat         | float  | require  | 所在地   |
+| lng         | float  | required | 所在地   |
+| sex         | int    | required | 性别     |
+| age_segment | int    | required | 年龄段   |
+| image       | binary | required | 头像     |
 
 ** 用户登陆
 
@@ -220,7 +240,6 @@ GET
 *** DONE 还有要返回车主的坐标属性，因为我点击看地图要显示车主
     CLOSED: [2013-12-13 Fri 08:06]
 
-
 ** DONE 性别、头像图片链接、星级个数都没看见
    CLOSED: [2013-12-14 Sat 15:39]
 ** DONE 还有   出发地  和   目的地能给文字吗
@@ -230,3 +249,6 @@ GET
 ** DONE 服务器用debug模式部署
    CLOSED: [2013-12-14 Sat 15:39]
 ** DONE 查看新的文档，看看有什么东西是要改的
+** TODO 完成首页的grid layout
+** DONE 加入pagination
+** TODO 这是注册时候完善的   当我登陆时候用户中心里面还有一个我的个人信息和这个界面一样
