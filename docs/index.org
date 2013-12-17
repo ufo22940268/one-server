@@ -32,7 +32,7 @@
 | page_size | 每页数据条数 |
 
 
-* 搭车信息
+* 车辆信息
 
 ** 看看谁能带我
 
@@ -78,7 +78,7 @@ GET
 | image_url | 头像url            |
 
 
-** 车主发布拼车服务
+** 发布拼车服务
 
 *** 请求方法
 POST
@@ -100,6 +100,74 @@ POST
 | people         | int          | True     | 乘车人数    |
 | comment        | str          | False    | 评论        |
 | car_type       | unicode(str) | False    | 车辆类型    |
+
+
+
+
+* 乘客信息
+
+** 看看谁要搭车
+*** 请求方法
+GET
+
+*** 路径
+/passengers
+
+*** 请求参数
+| name | type | required | desc     |
+|------+------+----------+----------|
+| lat  | str  | True     | 当前坐标 |
+| lng  | str  | True     | 当前坐标 |
+
+*** 返回
+| name           | desc                  |
+|----------------+-----------------------|
+| title          | 标题                  |
+| start_off_time | 搭车时间              |
+| start_loc      | 乘车地点              |
+| dest_loc       | 目的地                |
+| start_addr     | 可阅读的乘车地点      |
+| dest_addr      | 可阅读的目的地        |
+| price          | 所需搭车币            |
+| people         | 乘车人数              |
+| comment        | 评论                  |
+| distance       | 距离                  |
+| user           | 用户信息（参见下面）  |
+| rating         | 星级（返回一个mock值) |
+
+** 我要搭车
+
+*** 请求方法
+POST
+
+*** 路径
+/passengers
+
+*** 请求参数
+| name           | type         | required | desc        |
+|----------------+--------------+----------+-------------|
+| title          | str          | True     | 标题        |
+| start_off_time | str          | True     | 搭车时间    |
+| wait_time      | str          | True     | 可等待时间  |
+| start_lat      | float        | True     | 乘车地点lat |
+| start_lng      | float        | True     | 乘车地点lng |
+| dest_lat       | float        | True     | 目的地lat   |
+| dest_lng       | float        | True     | 目的地lng   |
+| price          | int          | True     | 所需搭车币  |
+| people         | int          | True     | 乘车人数    |
+| comment        | str          | False    | 评论        |
+
+
+**** 用户信息
+
+| name      | desc             |
+|-----------+------------------|
+| username  | 登陆的用户名     |
+| nickname  | 昵称             |
+| sex       | 性别 0：男 1：女 |
+| image_url | 头像url            |
+
+
 
 
 
@@ -249,6 +317,9 @@ GET
 ** DONE 服务器用debug模式部署
    CLOSED: [2013-12-14 Sat 15:39]
 ** DONE 查看新的文档，看看有什么东西是要改的
-** TODO 完成首页的grid layout
+** DONE 完成首页的grid layout
 ** DONE 加入pagination
-** TODO 这是注册时候完善的   当我登陆时候用户中心里面还有一个我的个人信息和这个界面一样
+
+** DONE 我要搭车
+** DONE 看看谁要搭车
+** DONE 这是注册时候完善的   当我登陆时候用户中心里面还有一个我的个人信息和这个界面一样

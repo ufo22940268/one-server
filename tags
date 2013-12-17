@@ -1,65 +1,4 @@
 
-a.html,0
-
-docs/conf.py,878
-extensions = ['sphinx.ext.autodoc',extensions29,976
-templates_path = ['_templates']templates_path34,1163
-source_suffix = '.md'source_suffix37,1230
-master_doc = 'index'master_doc43,1348
-project = u'Flask Foundation'project46,1411
-copyright = u'2013, Jack Stouffer'copyright47,1441
-version = '0.3'version54,1678
-release = '0.3'release56,1744
-exclude_patterns = ['_build']exclude_patterns70,2229
-pygments_style = 'sphinx'pygments_style88,2805
-html_theme = 'default'html_theme101,3156
-html_static_path = ['_static']html_static_path130,4240
-htmlhelp_basename = 'bootstrapydoc'htmlhelp_basename174,5666
-latex_elements = {latex_elements179,5735
-latex_documents = [latex_documents193,6130
-man_pages = [man_pages223,6957
-texinfo_documents = [texinfo_documents237,7337
-intersphinx_mapping = {'http://docs.python.org/': None}intersphinx_mapping257,7957
-
-docs/index.html,122
- function CodeHighlightOn(elem, id)CodeHighlightOn89,3304
- function CodeHighlightOff(elem, id)CodeHighlightOff99,3598
-
-docs/index.tex,1288
-\subsection{测试用的token}token50,1232
-\section{Todo list}Todo list333,7857
-\subsection{\textbf{DONE} 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中}textbf DONE335,7891
-\subsection{\textbf{DONE} 用户注册接口}textbf DONE345,8187
-\subsection{\textbf{DONE} 在projectile中添加debug的接口，用pdb完成}textbf DONE354,8393
-\subsubsection{\textbf{DONE} 还有要返回车主的坐标属性，因为我点击看地图要显示车主}textbf DONE360,8587
-\subsection{\textbf{DONE} 性别、头像图片链接、星级个数都没看见}textbf DONE364,8766
-\subsection{\textbf{DONE} 还有   出发地  和   目的地能给文字吗}textbf DONE368,8915
-\subsection{\textbf{DONE} 没找到提bug的地方  直接说吧   用户手机登陆  使先post手机号   然后才能获得验证码的   不能一起提交的}textbf DONE372,9060
-\subsection{\textbf{DONE} 好像还缺个属性   我还得提交个车辆类型   这个是需求改动后加的}textbf DONE374,9241
-\subsection{\textbf{DONE} 服务器用debug模式部署}textbf DONE376,9372
-\subsection{\textbf{DONE} 查看新的文档，看看有什么东西是要改的}textbf DONE380,9496
-\subsection{\textbf{TODO} 完成首页的grid layout}textbf TODO382,9595
-
-docs/make.bat,493
-	set SPHINXBUILD=sphinx-buildSPHINXBUILD6,86
-set BUILDDIR=_buildBUILDDIR8,120
-set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% .ALLSPHINXOPTS9,141
-set I18NSPHINXOPTS=%SPHINXOPTS% .I18NSPHINXOPTS10,198
-	set ALLSPHINXOPTS=-D latex_paper_size=%PAPER% %ALLSPHINXOPTS%ALLSPHINXOPTS12,259
-	set I18NSPHINXOPTS=-D latex_paper_size=%PAPER% %I18NSPHINXOPTS%I18NSPHINXOPTS13,323
-	echo.  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letterPAPER30,987
-:endend242,6703
-
-docs/Makefile,450
-SPHINXOPTS    =SPHINXOPTS5,92
-SPHINXBUILD   = sphinx-buildSPHINXBUILD6,108
-PAPER         =PAPER7,137
-BUILDDIR      = _buildBUILDDIR8,153
-PAPEROPT_a4     = -D latex_paper_size=a4PAPEROPT_a416,655
-PAPEROPT_letter = -D latex_paper_size=letterPAPEROPT_letter17,696
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .ALLSPHINXOPTS18,741
-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .I18NSPHINXOPTS20,897
-
 fabfile.py,93
 def deploy():deploy9,166
 def start():start16,308
@@ -108,21 +47,26 @@ class BaseResource(Resource):BaseResource17,328
     def get_user_id(self):get_user_id19,359
     def get_user_object_id(self):get_user_object_id22,424
     def result_ok(self, data='', pageinfo=None):result_ok25,503
-    def result_error(self):result_error30,656
+    def result_error(self):result_error31,681
 
 one_server/controllers/main.py,97
 main = Blueprint('main', __name__)main5,92
 def home():home10,174
 def wtform():wtform15,277
 
-one_server/controllers/ride.py,288
+one_server/controllers/ride.py,513
 class Rides(BaseResource):Rides30,799
     method_decorators = [authenticate]method_decorators33,828
     def __init__(self):__init__35,868
     def get(self):get50,1901
     def post(self):post70,2696
-class SearchRides(Resource):SearchRides91,3515
-    def get(self):get93,3545
+class Passengers(BaseResource):Passengers91,3515
+    method_decorators = [authenticate]method_decorators94,3549
+    def __init__(self):__init__96,3589
+    def get(self):get110,4551
+    def post(self):post130,5352
+class SearchRides(Resource):SearchRides151,6176
+    def get(self):get153,6206
 
 one_server/controllers/user.py,595
 class User(Resource):User20,444
@@ -279,7 +223,7 @@ class TestDb:TestDb10,214
     def test_geo(self):test_geo20,431
     def test_user(self):test_user34,833
 
-tests/test_ride.py,332
+tests/test_ride.py,520
 class TestRide(TestBase):TestRide11,193
     def setup_class(cls):setup_class14,237
     def insert_rides(cls):insert_rides18,308
@@ -287,6 +231,10 @@ class TestRide(TestBase):TestRide11,193
     def test_pageination(self):test_pageination57,1629
     def test_add(self):test_add65,1882
     def test_search(self):test_search77,2250
+class TestTakeRide(TestBase):TestTakeRide94,2943
+    def setup_class(cls):setup_class97,2991
+    def insert_rides(cls):insert_rides101,3062
+    def test_add(self):test_add122,3757
 
 tests/test_user.py,576
 class TestUser(TestBase):TestUser9,171

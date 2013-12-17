@@ -90,3 +90,43 @@ class TestRide(TestBase):
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
+
+class TestTakeRide(TestBase):
+
+    @classmethod
+    def setup_class(cls):
+        cls.insert_rides()
+
+    @classmethod
+    def insert_rides(cls):
+        for i in range(10):
+            lat = 39.983424 + float(i)/(10**4)
+            lng = 116.322987 + float(i)/(10**4)
+            params = {
+                'title': 't',
+                'start_off_time': '1922-02-01 21:22',
+                'wait_time': '1',
+                'start_lat': lat,
+                'start_lng': lng,
+                'dest_lat': lat,
+                'dest_lng': lng,
+                'price': 2,
+                'people': 2,
+                'comment': 'asdf',
+                'debug': 1,
+                'token': token,
+                }
+            rv = test_app.post('passengers', data=params)
+            assert rv.status_code == 200
+
+    def test_add(self):
+        rides_cursor = mongo.db.ride.find()
+        assert rides_cursor.count()
+        assert rides_cursor[0]['user_id']
+
+        rv = test_app.get(make_url_end('passengers', {'lat': 5.0, 'lng': 5.0}))
+        js = parse_json(rv.data)
+        assert len(js)
+
+        rv = test_app.post('passengers', data={'a': 0})
+        assert rv.status_code != 200

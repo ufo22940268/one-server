@@ -33,7 +33,8 @@ def init_db():
                           '_id': ObjectId('52a468d91d24ead09274284d')})
     mongo.db.ride.create_index([('start_loc', GEO2D)])
     mongo.db.ride.create_index([('dest_loc', GEO2D)])
-
+    mongo.db.passenger.create_index([('start_loc', GEO2D)])
+    mongo.db.passenger.create_index([('dest_loc', GEO2D)])
 
 def create_app(object_name, env="prod"):
     """

@@ -34,3 +34,12 @@ def search_cars(req_params):
             {"dest_loc": {"$near": [req_params['dest_lat'], req_params['dest_lng']]}}
         )
         return cursor_to_dict(data)
+
+def nearby_passengers(lat, lng, pageinfo=None):
+    data = mongo.db.passenger.find(
+        {"start_loc": {"$near": [lat, lng]}}
+    )
+    if pageinfo:
+        page(data, pageinfo)
+
+    return data
