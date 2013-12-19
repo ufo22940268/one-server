@@ -120,10 +120,16 @@ class Passengers(BaseResource):
         for x in data:
             x['user'] = json.loads(dumps(mongo.db.user.find_one({'_id': ObjectId(x['user_id'])})))
             del x['user']['password']
-            x['distance'] = distance_on_unit_sphere(args['lat'], args['lng'], float(x['dest_loc'][0]), float(x['dest_loc'][1]))
+            distance = distance_on_unit_sphere(args['lat'], args['lng'], float(x['dest_loc'][0]), float(x['dest_loc'][1]))
+            x['distance'] = (distance * 100) / 100.0
 
             #Mock
             x['rating'] = 3
+            if not x.get('start_addr'):
+                x['start_addr'] = ''
+
+            if not x.get('dest_addr'):
+                x['dest_addr'] = ''
 
         return self.result_ok(data, pageinfo=args)
 
@@ -137,8 +143,8 @@ class Passengers(BaseResource):
             args['start_addr'] = u'测试_杭州'
             args['dest_addr'] = u'测试_杭州'
         else:
-            args['start_addr'] = common_util.readable_address(args['start_lat'], args['start_lng'])
-            args['dest_addr'] = common_util.readable_address(args['dest_lat'], args['dest_lng'])
+            args['start_addr'] = common_util.readable_address(args['start_lat'], args['start_lng']) or ''
+            args['dest_addr'] = common_util.readable_address(args['dest_lat'], args['dest_lng']) or ''
 
         del args['start_lat']
         del args['start_lng']

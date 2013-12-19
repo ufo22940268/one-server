@@ -32,6 +32,10 @@
 | page_size | 每页数据条数 |
 
 
+** 关于星星
+- 看看谁能带我    看看谁要搭车    还有用户中心    这个星星通过搭车币可以升级的
+- 上限为5个
+
 * 车辆信息
 
 ** 看看谁能带我
@@ -101,6 +105,54 @@ POST
 | comment        | str          | False    | 评论        |
 | car_type       | unicode(str) | False    | 车辆类型    |
 
+
+
+
+** 搜索
+
+*** 请求方法
+GET
+
+*** 路径
+/search_rides
+
+*** 请求参数
+| name           | type | required | desc       |
+|----------------+------+----------+------------|
+| start_lat      | str  | False    | 起始坐标   |
+| start_lng      | str  | False    | 起始坐标   |
+| dest_lat       | str  | False    | 目的地坐标 |
+| dest_lng       | str  | False    | 目的地坐标 |
+| start_off_time | str  | False    | 离开时间   |
+
+*** 返回
+| name           | desc                  |
+|----------------+-----------------------|
+| title          | 标题                  |
+| start_off_time | 搭车时间              |
+| wait_time      | 可等待时间            |
+| start_loc      | 乘车地点              |
+| dest_loc       | 目的地                |
+| start_addr     | 可阅读的乘车地点      |
+| dest_addr      | 可阅读的目的地        |
+| price          | 所需搭车币            |
+| people         | 乘车人数              |
+| comment        | 评论                  |
+| distance       | 距离                  |
+| user           | 用户信息（参见下面）  |
+| car_type       | 车辆类型              |
+| rating         | 星级（返回一个mock值) |
+
+
+
+**** 用户信息
+
+| name      | desc             |
+|-----------+------------------|
+| username  | 登陆的用户名     |
+| nickname  | 昵称             |
+| sex       | 性别 0：男 1：女 |
+| image_url | 头像url            |
 
 
 
@@ -343,4 +395,8 @@ GET
 ** DONE 我要搭车
 ** DONE 看看谁要搭车
 ** DONE 这是注册时候完善的   当我登陆时候用户中心里面还有一个我的个人信息和这个界面一样
-** TODO 获取用户信息的接口
+** DONE 获取用户信息的接口
+
+** TODO 完成侧边栏
+** TODO 完成搜索模块的文档的添加
+** TODO 有些细节问题   到时候最后了再改吧   就比如我现在计算的搭车币是  三公里之内5个搭车币   每多一公里加一个搭车币

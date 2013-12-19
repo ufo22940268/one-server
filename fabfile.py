@@ -26,3 +26,11 @@ def start():
 def kill_unicorn():
     with cd('one-server'):
         run("bash kill.sh")
+
+def db():
+    # Migrate db file.
+    local('mongodump --out /tmp/db && tar -cvf /tmp/db.tar /tmp/db')
+    put('/tmp/db.tar', '/tmp/db.tar')
+    with cd('/tmp'):
+        run('tar -xvf /tmp/db.tar')
+        run('mongorestore /tmp/tmp/db/one_server/ -d one_server')
