@@ -1,8 +1,9 @@
 
-fabfile.py,93
+fabfile.py,113
 def deploy():deploy9,166
 def start():start16,308
 def kill_unicorn():kill_unicorn26,701
+def db():db30,777
 
 kill.sh,0
 
@@ -20,9 +21,9 @@ api = Api(catch_all_404s=True)api20,453
 mongo = PyMongo()mongo21,484
 login_manager = LoginManager()login_manager22,502
 def init_db():init_db25,535
-def create_app(object_name, env="prod"):create_app38,1103
-    env = os.environ.get('APPNAME_ENV', 'prod')env85,2297
-    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app86,2345
+def create_app(object_name, env="prod"):create_app39,1221
+    env = os.environ.get('APPNAME_ENV', 'prod')env86,2415
+    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app87,2463
 
 one_server/assets.py,244
 common_css = Bundle(common_css3,33
@@ -64,32 +65,35 @@ class Passengers(BaseResource):Passengers91,3515
     method_decorators = [authenticate]method_decorators94,3549
     def __init__(self):__init__96,3589
     def get(self):get110,4551
-    def post(self):post130,5352
-class SearchRides(Resource):SearchRides151,6176
-    def get(self):get153,6206
+    def post(self):post136,5553
+class SearchRides(Resource):SearchRides157,6389
+    def get(self):get159,6419
 
-one_server/controllers/user.py,595
-class User(Resource):User20,444
-    def post(self):post22,467
-class Comment(BaseResource):Comment47,1498
-    def post(self):post49,1528
-    def get(self):get60,1942
-class Login(BaseResource):Login67,2171
-    def post(self):post69,2199
-class Test(BaseResource):Test81,2631
-    def post(self):post83,2658
-class ValidatePhone(BaseResource):ValidatePhone90,2875
-    def post(self):post92,2911
-class ValidateCode(BaseResource):ValidateCode103,3259
-    def post(self):post105,3294
-class SubmitPassword(BaseResource):SubmitPassword112,3503
-    def post(self):post114,3540
+one_server/controllers/user.py,678
+class User(Resource):User21,479
+    def post(self):post23,502
+class SingleUser(BaseResource):SingleUser47,1532
+    def get(self):get49,1565
+class Comment(BaseResource):Comment56,1793
+    def post(self):post58,1823
+    def get(self):get69,2237
+class Login(BaseResource):Login76,2466
+    def post(self):post78,2494
+class Test(BaseResource):Test90,2926
+    def post(self):post92,2953
+class ValidatePhone(BaseResource):ValidatePhone99,3170
+    def post(self):post101,3206
+class ValidateCode(BaseResource):ValidateCode112,3554
+    def post(self):post114,3589
+class SubmitPassword(BaseResource):SubmitPassword121,3798
+    def post(self):post123,3835
 
 one_server/model/__init__.py,0
 
-one_server/model/ride_model.py,109
+one_server/model/ride_model.py,182
 def nearby_cars(lat, lng, pageinfo=None):nearby_cars16,269
 def search_cars(req_params):search_cars25,457
+def nearby_passengers(lat, lng, pageinfo=None):nearby_passengers38,959
 
 one_server/model/user_model.py,221
 def authenticate(func):authenticate22,458
@@ -223,7 +227,7 @@ class TestDb:TestDb10,214
     def test_geo(self):test_geo20,431
     def test_user(self):test_user34,833
 
-tests/test_ride.py,520
+tests/test_ride.py,522
 class TestRide(TestBase):TestRide11,193
     def setup_class(cls):setup_class14,237
     def insert_rides(cls):insert_rides18,308
@@ -231,20 +235,21 @@ class TestRide(TestBase):TestRide11,193
     def test_pageination(self):test_pageination57,1629
     def test_add(self):test_add65,1882
     def test_search(self):test_search77,2250
-class TestTakeRide(TestBase):TestTakeRide94,2943
-    def setup_class(cls):setup_class97,2991
-    def insert_rides(cls):insert_rides101,3062
-    def test_add(self):test_add122,3757
+class TestTakeRide(TestBase):TestTakeRide112,3449
+    def setup_class(cls):setup_class115,3497
+    def insert_rides(cls):insert_rides119,3568
+    def test_add(self):test_add140,4263
 
-tests/test_user.py,576
+tests/test_user.py,626
 class TestUser(TestBase):TestUser9,171
     def test_init(self):test_init11,198
     def test_add_user(self):test_add_user14,284
-    def test_login(self):test_login31,782
-    def test_image(args):test_image42,1147
-    def test_validate_code(self):test_validate_code52,1507
-    def test_validate_phone(self):test_validate_phone57,1667
-    def test_submit_password(self):test_submit_password66,1962
-class TestComment(TestBase):TestComment72,2123
-    def test_do_comment(self):test_do_comment74,2153
-    def test_list_comments(self):test_list_comments79,2324
+    def test_get_user(self):test_get_user31,782
+    def test_login(self):test_login36,921
+    def test_image(args):test_image47,1286
+    def test_validate_code(self):test_validate_code57,1646
+    def test_validate_phone(self):test_validate_phone62,1806
+    def test_submit_password(self):test_submit_password71,2101
+class TestComment(TestBase):TestComment77,2262
+    def test_do_comment(self):test_do_comment79,2292
+    def test_list_comments(self):test_list_comments84,2463

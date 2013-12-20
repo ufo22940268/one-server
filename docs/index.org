@@ -108,53 +108,6 @@ POST
 
 
 
-** 搜索
-
-*** 请求方法
-GET
-
-*** 路径
-/search_rides
-
-*** 请求参数
-| name           | type | required | desc       |
-|----------------+------+----------+------------|
-| start_lat      | str  | False    | 起始坐标   |
-| start_lng      | str  | False    | 起始坐标   |
-| dest_lat       | str  | False    | 目的地坐标 |
-| dest_lng       | str  | False    | 目的地坐标 |
-| start_off_time | str  | False    | 离开时间   |
-
-*** 返回
-| name           | desc                  |
-|----------------+-----------------------|
-| title          | 标题                  |
-| start_off_time | 搭车时间              |
-| wait_time      | 可等待时间            |
-| start_loc      | 乘车地点              |
-| dest_loc       | 目的地                |
-| start_addr     | 可阅读的乘车地点      |
-| dest_addr      | 可阅读的目的地        |
-| price          | 所需搭车币            |
-| people         | 乘车人数              |
-| comment        | 评论                  |
-| distance       | 距离                  |
-| user           | 用户信息（参见下面）  |
-| car_type       | 车辆类型              |
-| rating         | 星级（返回一个mock值) |
-
-
-
-**** 用户信息
-
-| name      | desc             |
-|-----------+------------------|
-| username  | 登陆的用户名     |
-| nickname  | 昵称             |
-| sex       | 性别 0：男 1：女 |
-| image_url | 头像url            |
-
-
 
 * 乘客信息
 
@@ -220,6 +173,55 @@ POST
 | image_url | 头像url            |
 
 
+
+
+* 搜索
+
+*** 请求方法
+GET
+
+*** 路径
+/search_rides
+
+*** 请求参数
+| name           | type | required | desc                             |
+|----------------+------+----------+----------------------------------|
+| start_lat      | str  | False    | 起始坐标                         |
+| start_lng      | str  | False    | 起始坐标                         |
+| dest_lat       | str  | False    | 目的地坐标                       |
+| dest_lng       | str  | False    | 目的地坐标                       |
+| start_off_time | str  | False    | 离开时间                         |
+| type           | int  | True     | 搜索类型 0：汽车信息 1：乘客信息 |
+
+
+*** 返回
+| name           | desc                  |
+|----------------+-----------------------|
+| title          | 标题                  |
+| start_off_time | 搭车时间              |
+| wait_time      | 可等待时间            |
+| start_loc      | 乘车地点              |
+| dest_loc       | 目的地                |
+| start_addr     | 可阅读的乘车地点      |
+| dest_addr      | 可阅读的目的地        |
+| price          | 所需搭车币            |
+| people         | 乘车人数              |
+| comment        | 评论                  |
+| distance       | 距离                  |
+| user           | 用户信息（参见下面）  |
+| car_type       | 车辆类型              |
+| rating         | 星级（返回一个mock值) |
+
+
+
+**** 用户信息
+
+| name      | desc             |
+|-----------+------------------|
+| username  | 登陆的用户名     |
+| nickname  | 昵称             |
+| sex       | 性别 0：男 1：女 |
+| image_url | 头像url            |
 
 
 
@@ -400,3 +402,8 @@ GET
 ** TODO 完成侧边栏
 ** TODO 完成搜索模块的文档的添加
 ** TODO 有些细节问题   到时候最后了再改吧   就比如我现在计算的搭车币是  三公里之内5个搭车币   每多一公里加一个搭车币
+** TODO 搜索类型不post给你吗？
+○×□△  16:40:15
+搜索类型就是司机和乘客吗？
+董皓  16:40:35
+我要找司机  和我要找乘客啊

@@ -162,9 +162,9 @@ class SearchRides(Resource):
         parser.add_argument('start_lng'      , type=float , required=False)
         parser.add_argument('dest_lat'      , type=float , required=False)
         parser.add_argument('dest_lng'      , type=float , required=False)
+        parser.add_argument('type'      , type=int , required=True)
         args = parser.parse_args()
-        # import pdb; pdb.set_trace()
-        data = ride_model.search_cars(args)
+        data = ride_model.search(args)
         return {'result': data}
 
 api.add_resource(Rides, '/rides')

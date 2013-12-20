@@ -22,15 +22,16 @@ def nearby_cars(lat, lng, pageinfo=None):
 
     return data
 
-def search_cars(req_params):
+def search(req_params):
+    coll = mongo.db.ride if req_params['type'] == 0 else mongo.db.passenger
     if req_params.get('start_lat') and req_params.get('start_lng'):
-        data = mongo.db.ride.find(
+        data = coll.find(
             {"start_loc": {"$near": [req_params['start_lat'], req_params['start_lng']]}}
         )
         return cursor_to_dict(data)
 
     if req_params.get('dest_lat') and req_params.get('dest_lng'):
-        data = mongo.db.ride.find(
+        data = coll.find(
             {"dest_loc": {"$near": [req_params['dest_lat'], req_params['dest_lng']]}}
         )
         return cursor_to_dict(data)

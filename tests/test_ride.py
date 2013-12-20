@@ -77,19 +77,37 @@ class TestRide(TestBase):
     def test_search(self):
         params = {'start_lat': 5.0, 'start_lng': 5.0}
         rv = test_app.get(make_url_end("search_rides", params))
+        assert rv.status_code != 200
+
+        params = {
+            'start_lat': 5.0,
+            'start_lng': 5.0,
+            'type': 1
+        }
+        rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
 
-        params = {'dest_lat': 5.0, 'dest_lng': 5.0}
+        params = {'dest_lat': 5.0, 'dest_lng': 5.0, 'type': 1}
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
 
         params = {'start_lat': 5.0, 'start_lng': 5.0,
-                'dest_lat': 5.0, 'dest_lng': 5.0}
+                'dest_lat': 5.0, 'dest_lng': 5.0,
+                  'type': 0
+        }
         rv = test_app.get(make_url_end("search_rides", params))
         assert rv.status_code == 200
         assert len(parse_json(rv.data)['result'])
+
+        params = {'start_lat': 5.0, 'start_lng': 5.0,
+                'dest_lat': 5.0, 'dest_lng': 5.0,
+                  'type': 1
+        }
+        rv2 = test_app.get(make_url_end("search_rides", params))
+        assert rv.data != rv2.data
+
 
 class TestTakeRide(TestBase):
 
