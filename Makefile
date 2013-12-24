@@ -28,6 +28,9 @@ lint:
 test:
 	py.test -s -x tests
 
+test-current:
+	py.test -m current -s -x tests
+
 testdb:
 	py.test -s -x tests/test_db.py
 

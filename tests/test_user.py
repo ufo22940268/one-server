@@ -43,7 +43,6 @@ class TestUser(TestBase):
         js, status = self.post('login', params)
         assert status == 400
 
-    @pytest.mark.current
     def test_image(args):
         params = dict()
         params["image"] = StringIO('Foo bar baz'), 'image'

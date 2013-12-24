@@ -6,6 +6,7 @@ from flask.ext.pymongo import PyMongo
 import json
 import urllib
 from base import *
+import pytest
 
 
 class TestRide(TestBase):
@@ -54,6 +55,13 @@ class TestRide(TestBase):
         assert first.get('start_addr')
         assert first.get('dest_addr')
 
+    def test_ride_detail(self):
+        data, state = self.get("rides", {'lat': 5.0, 'lng': 5.0})
+        id = data['result'][0]['_id']
+        data, state = self.get('ride_detail', {'id': id})
+        assert state == 200
+        assert data['result']['user']
+
     def test_pageination(self):
         params = {'lat': 5.0, 'lng': 5.0, 'page': 1, 'page_size': 2}
         data, status = self.get("rides", params)
@@ -61,11 +69,10 @@ class TestRide(TestBase):
         assert data['page']
         assert data['page_size']
 
-
+    @pytest.mark.current
     def test_add(self):
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
-        assert rides_cursor[0]['user_id']
 
         rv = test_app.get(make_url_end('rides', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
@@ -140,7 +147,6 @@ class TestTakeRide(TestBase):
     def test_add(self):
         rides_cursor = mongo.db.ride.find()
         assert rides_cursor.count()
-        assert rides_cursor[0]['user_id']
 
         rv = test_app.get(make_url_end('passengers', {'lat': 5.0, 'lng': 5.0}))
         js = parse_json(rv.data)
@@ -148,3 +154,6 @@ class TestTakeRide(TestBase):
 
         rv = test_app.post('passengers', data={'a': 0})
         assert rv.status_code != 200
+        
+
+        

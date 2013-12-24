@@ -18,6 +18,7 @@ from flask.ext.login import LoginManager, current_user
 from one_server.model.user_model import authenticate
 from one_server import api, mongo, login_manager
 from bson.json_util import dumps
+from bson.dbref import DBRef
 import json
 from functools import wraps
 from one_server.model import ride_model
@@ -54,12 +55,11 @@ class Rides(BaseResource):
         parser.add_argument('lng'      , type=float , required=True)
         args = parser.parse_args()
         data = ride_model.nearby_cars(args['lat'], args['lng'], args)
+        # import pdb; pdb.set_trace()
         data = dumps(data)
         data = json.loads(data)
 
         for x in data:
-            x['user'] = json.loads(dumps(mongo.db.user.find_one({'_id': ObjectId(x['user_id'])})))
-            del x['user']['password']
             x['distance'] = distance_on_unit_sphere(args['lat'], args['lng'], float(x['dest_loc'][0]), float(x['dest_loc'][1]))
 
             #Mock
@@ -84,12 +84,27 @@ class Rides(BaseResource):
         del args['start_lng']
         del args['dest_lat']
         del args['dest_lng']
-        args['user_id'] = current_user.get_id()
+        user_id = current_user.get_id()
+        # args['user'] = {'$ref': 'user', '$id': ObjectId(user_id)}
+        args['user'] = DBRef('user', ObjectId(user_id))
         mongo.db.ride.insert(args)
         return '', 200
 
-class Passengers(BaseResource):
+class RideDetail(BaseResource):
 
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id'      , type=str , required=True)
+        args = parser.parse_args()
+        data = ride_model.nearby_car(args['id'])
+        data = common_util.cursor_to_dict(data)
+        #Mock
+        data['rating'] = 3
+
+        return self.result_ok(data)
+
+
+class Passengers(BaseResource):
 
     method_decorators = [authenticate]
 
@@ -168,5 +183,6 @@ class SearchRides(Resource):
         return {'result': data}
 
 api.add_resource(Rides, '/rides')
+api.add_resource(RideDetail, '/ride_detail')
 api.add_resource(Passengers, '/passengers')
 api.add_resource(SearchRides, '/search_rides')

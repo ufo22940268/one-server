@@ -12,6 +12,8 @@
 
 from one_server import login_manager, mongo
 from one_server.common_util import *
+from bson.dbref import DBRef
+from bson.objectid import ObjectId
 
 def nearby_cars(lat, lng, pageinfo=None):
     data = mongo.db.ride.find(
@@ -19,6 +21,23 @@ def nearby_cars(lat, lng, pageinfo=None):
     )
     if pageinfo:
         page(data, pageinfo)
+
+    data = list(data)
+    for x in data:
+        x['_id'] = str(x['_id'])
+        x['user'] = mongo.db.dereference(x['user'])
+        del x['user']['password']
+
+    return data
+
+def nearby_car(id):
+    data = mongo.db.ride.find_one(
+        {"_id": ObjectId(id)}
+    )
+
+    data = dict(data)
+    data['user'] = mongo.db.dereference(data['user'])
+    del data['user']['password']
 
     return data
 

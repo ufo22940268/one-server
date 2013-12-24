@@ -24,8 +24,7 @@ login_manager = LoginManager()
 
 def init_db():
     image = 'http://img.bjnews.com.cn/epaper/20130618/C08/022E31DC2098.jpg'
-    mongo.db.user.remove({'_id': ObjectId('52a468d91d24ead09274284d')})
-    mongo.db.user.insert({'username': 'asdf',
+    mongo.db.user.save({'username': 'asdf',
                           'password': 'asdf',
                           'nickname': 'asdf',
                           'sex': '0',
