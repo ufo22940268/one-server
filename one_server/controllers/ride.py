@@ -46,7 +46,7 @@ class Rides(BaseResource):
         self.api_parser.add_argument('people'         , type=int   , required=True)
         self.api_parser.add_argument('comment'        , type=str)
         self.api_parser.add_argument('debug'        , type=int)
-        self.api_parser.add_argument('car_type'        , type=unicode)
+        self.api_parser.add_argument('car_type'        , type=int)
 
     def get(self):
         parser = reqparse.RequestParser()

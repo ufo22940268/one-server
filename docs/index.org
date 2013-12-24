@@ -91,19 +91,19 @@ POST
 /rides
 
 *** 请求参数
-| name           | type         | required | desc        |
-|----------------+--------------+----------+-------------|
-| title          | str          | True     | 标题        |
-| start_off_time | str          | True     | 搭车时间    |
-| wait_time      | str          | True     | 可等待时间  |
-| start_lat      | float        | True     | 乘车地点lat |
-| start_lng      | float        | True     | 乘车地点lng |
-| dest_lat       | float        | True     | 目的地lat   |
-| dest_lng       | float        | True     | 目的地lng   |
-| price          | int          | True     | 所需搭车币  |
-| people         | int          | True     | 乘车人数    |
-| comment        | str          | False    | 评论        |
-| car_type       | unicode(str) | False    | 车辆类型    |
+| name           | type  | required | desc                       |
+|----------------+-------+----------+----------------------------|
+| title          | str   | True     | 标题                       |
+| start_off_time | str   | True     | 搭车时间                   |
+| wait_time      | str   | True     | 可等待时间                 |
+| start_lat      | float | True     | 乘车地点lat                |
+| start_lng      | float | True     | 乘车地点lng                |
+| dest_lat       | float | True     | 目的地lat                  |
+| dest_lng       | float | True     | 目的地lng                  |
+| price          | int   | True     | 所需搭车币                 |
+| people         | int   | True     | 乘车人数                   |
+| comment        | str   | False    | 评论                       |
+| car_type       | int   | False    | 车辆类型 0:自驾车 1:出租车 |
 
 
 
