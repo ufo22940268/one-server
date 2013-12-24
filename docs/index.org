@@ -343,7 +343,7 @@ get
 | age_segment | 年龄段   |
 | image_url   | 头像     |
 
-** 根据用户id获取用户id
+** 根据用户id获取用户
 *** 请求方法
 get
 
