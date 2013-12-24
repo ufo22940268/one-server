@@ -61,6 +61,7 @@ class TestRide(TestBase):
         data, state = self.get('ride_detail', {'id': id})
         assert state == 200
         assert data['result']['user']
+        assert data['result']['distance'] is not None
 
     def test_pageination(self):
         params = {'lat': 5.0, 'lng': 5.0, 'page': 1, 'page_size': 2}

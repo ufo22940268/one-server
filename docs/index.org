@@ -334,6 +334,27 @@ get
 *** 请求参数
 无
 
+*** 返回值
+| name        | desc     |
+|-------------+----------|
+| nickname    | 昵称     |
+| status      | 个性签名 |
+| sex         | 性别     |
+| age_segment | 年龄段   |
+| image_url   | 头像     |
+
+** 根据用户id获取用户id
+*** 请求方法
+get
+
+*** 路径
+/specific_user
+
+*** 请求参数
+| name | type | required | desc   |
+|------+------+----------+--------|
+| id   | str  | True     | 用户id |
+ 
 
 *** 返回值
 | name        | desc     |
@@ -343,6 +364,7 @@ get
 | sex         | 性别     |
 | age_segment | 年龄段   |
 | image_url   | 头像     |
+
 
 * 我的评价
 

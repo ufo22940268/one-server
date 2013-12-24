@@ -53,6 +53,19 @@ class SingleUser(BaseResource):
         del user['password']
         return self.result_ok(user)
 
+class SpecificUser(BaseResource):
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', type=str, required=True)
+        args = parser.parse_args()
+        
+        uid = args['id']
+        user = mongo.db.user.find_one({'_id': ObjectId(uid)})
+        user = common_util.cursor_to_dict(user)
+        del user['password']
+        return self.result_ok(user)
+
 class Comment(BaseResource):
 
     def post(self):
@@ -131,6 +144,7 @@ class SubmitPassword(BaseResource):
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
+api.add_resource(SpecificUser, '/specific_user')
 api.add_resource(Comment, '/comments')
 api.add_resource(Login, '/login')
 api.add_resource(Test, '/test')

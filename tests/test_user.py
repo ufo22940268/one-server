@@ -33,6 +33,11 @@ class TestUser(TestBase):
         assert status_code == 200
         assert data['result']
 
+    def test_get_specific_user(self):
+        data, status_code = self.get('specific_user', {"id": token})
+        assert status_code == 200
+        assert data['result']
+
     def test_login(self):
         params = {'username': 'asdf', 'password': 'asdf'}
         js, status = self.post('login', params)

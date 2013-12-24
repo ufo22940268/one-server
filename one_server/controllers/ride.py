@@ -98,6 +98,11 @@ class RideDetail(BaseResource):
         args = parser.parse_args()
         data = ride_model.nearby_car(args['id'])
         data = common_util.cursor_to_dict(data)
+
+        data['distance'] = distance_on_unit_sphere(data['start_loc'][0],
+                                                data['start_loc'][1],
+                                                data['dest_loc'][0],
+                                                data['dest_loc'][1])
         #Mock
         data['rating'] = 3
 
