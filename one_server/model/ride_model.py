@@ -62,4 +62,15 @@ def nearby_passengers(lat, lng, pageinfo=None):
     if pageinfo:
         page(data, pageinfo)
 
+    data = list(data)
+    for x in data:
+        x['_id'] = str(x['_id'])
+    return data
+
+def nearby_passenger(id):
+    data = mongo.db.passenger.find_one(
+        {"_id": ObjectId(id)}
+    )
+
+    data['_id'] = str(data['_id'])
     return data

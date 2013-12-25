@@ -100,9 +100,9 @@ class RideDetail(BaseResource):
         data = common_util.cursor_to_dict(data)
 
         data['distance'] = distance_on_unit_sphere(data['start_loc'][0],
-                                                data['start_loc'][1],
-                                                data['dest_loc'][0],
-                                                data['dest_loc'][1])
+                                                   data['start_loc'][1],
+                                                   data['dest_loc'][0],
+                                                   data['dest_loc'][1])
         #Mock
         data['rating'] = 3
 
@@ -174,6 +174,37 @@ class Passengers(BaseResource):
         mongo.db.passenger.insert(args)
         return '', 200
 
+class PassengerDetail(BaseResource):
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        common_util.setup_pageinfo(parser)
+        parser.add_argument('id'      , type=str , required=True)
+        args = parser.parse_args()
+        data = ride_model.nearby_passenger(args['id'])
+        data = dumps(data)
+        data = json.loads(data)
+
+        data['user'] = json.loads(dumps(mongo.db.user.find_one({'_id': ObjectId(data['user_id'])})))
+        del data['user']['password']
+        distance = distance_on_unit_sphere(data['start_loc'][0],
+                                                   data['start_loc'][1],
+                                                   data['dest_loc'][0],
+                                                   data['dest_loc'][1])
+
+        data['distance'] = (distance * 100) / 100.0
+
+        #Mock
+        data['rating'] = 3
+        if not data.get('start_addr'):
+            data['start_addr'] = ''
+
+        if not data.get('dest_addr'):
+            data['dest_addr'] = ''
+
+        return self.result_ok(data, pageinfo=args)
+
+
 class SearchRides(Resource):
 
     def get(self):
@@ -190,4 +221,5 @@ class SearchRides(Resource):
 api.add_resource(Rides, '/rides')
 api.add_resource(RideDetail, '/ride_detail')
 api.add_resource(Passengers, '/passengers')
+api.add_resource(PassengerDetail, '/passenger_detail')
 api.add_resource(SearchRides, '/search_rides')

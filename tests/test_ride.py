@@ -35,7 +35,7 @@ class TestRide(TestBase):
                 'debug': 1,
                 'token': token,
                 'car_type': 1,
-                }
+            }
             rv = test_app.post('rides', data=params)
             assert rv.status_code == 200
 
@@ -102,7 +102,7 @@ class TestRide(TestBase):
         assert len(parse_json(rv.data)['result'])
 
         params = {'start_lat': 5.0, 'start_lng': 5.0,
-                'dest_lat': 5.0, 'dest_lng': 5.0,
+                  'dest_lat': 5.0, 'dest_lng': 5.0,
                   'type': 0
         }
         rv = test_app.get(make_url_end("search_rides", params))
@@ -110,14 +110,14 @@ class TestRide(TestBase):
         assert len(parse_json(rv.data)['result'])
 
         params = {'start_lat': 5.0, 'start_lng': 5.0,
-                'dest_lat': 5.0, 'dest_lng': 5.0,
+                  'dest_lat': 5.0, 'dest_lng': 5.0,
                   'type': 1
         }
         rv2 = test_app.get(make_url_end("search_rides", params))
         assert rv.data != rv2.data
 
 
-class TestTakeRide(TestBase):
+class TestPassenger(TestBase):
 
     @classmethod
     def setup_class(cls):
@@ -141,7 +141,7 @@ class TestTakeRide(TestBase):
                 'comment': 'asdf',
                 'debug': 1,
                 'token': token,
-                }
+            }
             rv = test_app.post('passengers', data=params)
             assert rv.status_code == 200
 
@@ -155,6 +155,21 @@ class TestTakeRide(TestBase):
 
         rv = test_app.post('passengers', data={'a': 0})
         assert rv.status_code != 200
-        
 
-        
+    def test_passengers(self):
+        data, status = self.get('passengers', {'lat': 5.0, 'lng': 5.0})
+        assert status == 200
+        assert data is not None
+        first = data['result'][0]
+        assert type(first['_id']) == unicode
+
+
+    def test_passenger_detail(self):
+        data, status = self.get('passengers', {'lat': 5.0, 'lng': 5.0})
+        first = data['result'][0]
+        id = first['_id']
+
+        data, state = self.get('passenger_detail', {'id': id})
+        assert state == 200
+        assert data['result']['user']
+        assert data['result']['distance'] is not None
