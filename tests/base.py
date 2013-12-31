@@ -68,3 +68,7 @@ class TestBase(object):
         rv = test_app.get(make_url_end(end, params))
         return parse_json(rv.data).get('result'), rv.status_code
 
+    def get_token_user(self):
+        data, status_code = self.get('specific_user', {"id": token})
+        assert status_code == 200
+        return data['result']

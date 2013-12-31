@@ -376,6 +376,20 @@ get
 | age_segment | 年龄段   |
 | image_url   | 头像     |
 
+** 捐赠搭车币
+
+*** 请求方法
+POST
+
+*** 路径
+/donate_ride_coin
+
+*** 请求参数
+| name     | type | required | desc       |
+|----------+------+----------+------------|
+| quantity | int  | True     | 搭车币数量 |
+
+
 * 我的评价
 
 ** 添加评论

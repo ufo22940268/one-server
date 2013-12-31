@@ -150,6 +150,16 @@ class SubmitPassword(BaseResource):
                              {'$set': {'password': password}})
         return self.result_ok()
 
+class DonateRideCoin(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('quantity', type=int, required=True)
+        quantity = parser.parse_args()['quantity']
+        mongo.db.user.update({'_id': self.get_user_object_id()},
+                             {'$inc': {'ride_coin': quantity}})
+        return self.result_ok()
+
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
@@ -160,3 +170,4 @@ api.add_resource(Test, '/test')
 api.add_resource(ValidatePhone, '/validate_phone')
 api.add_resource(ValidateCode, '/validate_code')
 api.add_resource(SubmitPassword, '/submit_password')
+api.add_resource(DonateRideCoin, '/donate_ride_coin')

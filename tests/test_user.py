@@ -97,3 +97,13 @@ class TestComment(TestBase):
         first = result[0]
         assert first['commentor_name']
         assert first['time']
+
+class TestComment(TestBase):
+    
+    def test_ride_coin(self):
+        user = self.get_token_user()
+        assert not user.get("ride_coin")
+
+        self.post("donate_ride_coin", {'quantity': '10'})
+        user = self.get_token_user()
+        user["ride_coin"] == 10
