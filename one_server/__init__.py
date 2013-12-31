@@ -25,11 +25,21 @@ login_manager = LoginManager()
 def init_db():
     image = 'http://img.bjnews.com.cn/epaper/20130618/C08/022E31DC2098.jpg'
     mongo.db.user.save({'username': 'asdf',
-                          'password': 'asdf',
-                          'nickname': 'asdf',
-                          'sex': '0',
-                          'image_url': image,
-                          '_id': ObjectId('52a468d91d24ead09274284d')})
+                        'password': 'asdf',
+                        'nickname': 'asdf',
+                        'sex': '0',
+                        'image_url': image,
+                        'status': 'asdfasdfasdf',
+                        'merchant_coin': 1,
+                        'ride_coin ': 1,
+                        'rating': 3,
+                        '_id': ObjectId('52a468d91d24ead09274284d')})
+    #Alternative user for test
+    mongo.db.user.save({'username': 'fdsa',
+                        'password': 'fdsa',
+                        'nickname': 'fdsa',
+                        'sex': '0',
+                        'image_url': image})
     mongo.db.ride.create_index([('start_loc', GEO2D)])
     mongo.db.ride.create_index([('dest_loc', GEO2D)])
     mongo.db.passenger.create_index([('start_loc', GEO2D)])

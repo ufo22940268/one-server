@@ -30,8 +30,3 @@ class TestDb:
         l = list(db.places.find({"loc": {"$near": [1, 3]}}).limit(3))
         assert len(l) == 3
         assert l[0]['loc'] == [1, 2]
-
-    def test_user(self):
-        db = mongo.db
-        r = db.user.insert({'name': 'k'})
-        assert type(r) == ObjectId

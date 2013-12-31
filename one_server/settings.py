@@ -5,7 +5,7 @@ class Config(object):
 class ProdConfig(Config):
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///../database.db'
 
-    DEBUG = False
+    DEBUG = True
 
     CACHE_TYPE = 'simple'
 

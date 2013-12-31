@@ -1,9 +1,9 @@
 
 fabfile.py,113
 def deploy():deploy9,166
-def start():start16,308
-def kill_unicorn():kill_unicorn26,701
-def db():db30,777
+def start():start16,338
+def kill_unicorn():kill_unicorn26,731
+def db():db30,807
 
 kill.sh,0
 
@@ -21,9 +21,9 @@ api = Api(catch_all_404s=True)api20,453
 mongo = PyMongo()mongo21,484
 login_manager = LoginManager()login_manager22,502
 def init_db():init_db25,535
-def create_app(object_name, env="prod"):create_app39,1221
-    env = os.environ.get('APPNAME_ENV', 'prod')env86,2415
-    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app87,2463
+def create_app(object_name, env="prod"):create_app48,1553
+    env = os.environ.get('APPNAME_ENV', 'prod')env95,2747
+    app = create_app('one_server.settings.%sConfig' % env.capitalize(), env=env)app96,2795
 
 one_server/assets.py,244
 common_css = Bundle(common_css3,33
@@ -55,68 +55,77 @@ main = Blueprint('main', __name__)main5,92
 def home():home10,174
 def wtform():wtform15,277
 
-one_server/controllers/ride.py,513
-class Rides(BaseResource):Rides30,799
-    method_decorators = [authenticate]method_decorators33,828
-    def __init__(self):__init__35,868
-    def get(self):get50,1901
-    def post(self):post70,2696
-class Passengers(BaseResource):Passengers91,3515
-    method_decorators = [authenticate]method_decorators94,3549
-    def __init__(self):__init__96,3589
-    def get(self):get110,4551
-    def post(self):post136,5553
-class SearchRides(Resource):SearchRides157,6389
-    def get(self):get159,6419
+one_server/controllers/ride.py,692
+class Rides(BaseResource):Rides31,828
+    method_decorators = [authenticate]method_decorators34,857
+    def __init__(self):__init__36,897
+    def get(self):get51,1926
+    def post(self):post70,2622
+class RideDetail(BaseResource):RideDetail93,3557
+    def get(self):get95,3590
+class Passengers(BaseResource):Passengers112,4220
+    method_decorators = [authenticate]method_decorators114,4253
+    def __init__(self):__init__116,4293
+    def get(self):get130,5255
+    def post(self):post156,6257
+class PassengerDetail(BaseResource):PassengerDetail177,7093
+    def get(self):get179,7131
+class SearchRides(Resource):SearchRides208,8169
+    def get(self):get210,8199
 
-one_server/controllers/user.py,678
-class User(Resource):User21,479
-    def post(self):post23,502
-class SingleUser(BaseResource):SingleUser47,1532
-    def get(self):get49,1565
-class Comment(BaseResource):Comment56,1793
-    def post(self):post58,1823
-    def get(self):get69,2237
-class Login(BaseResource):Login76,2466
-    def post(self):post78,2494
-class Test(BaseResource):Test90,2926
-    def post(self):post92,2953
-class ValidatePhone(BaseResource):ValidatePhone99,3170
-    def post(self):post101,3206
-class ValidateCode(BaseResource):ValidateCode112,3554
-    def post(self):post114,3589
-class SubmitPassword(BaseResource):SubmitPassword121,3798
-    def post(self):post123,3835
+one_server/controllers/user.py,832
+class User(Resource):User23,561
+    def post(self):post26,593
+class SingleUser(BaseResource):SingleUser50,1623
+    method_decorators = [authenticate]method_decorators52,1660
+    def get(self):get54,1700
+class SpecificUser(BaseResource):SpecificUser62,1965
+    def get(self):get64,2000
+class Comment(BaseResource):Comment75,2365
+    def post(self):post77,2395
+    def get(self):get88,2809
+class Login(BaseResource):Login94,3037
+    def post(self):post96,3065
+class Test(BaseResource):Test108,3497
+    def post(self):post110,3524
+class ValidatePhone(BaseResource):ValidatePhone117,3741
+    def post(self):post119,3777
+class ValidateCode(BaseResource):ValidateCode130,4125
+    def post(self):post132,4160
+class SubmitPassword(BaseResource):SubmitPassword139,4369
+    def post(self):post141,4406
 
 one_server/model/__init__.py,0
 
-one_server/model/ride_model.py,182
-def nearby_cars(lat, lng, pageinfo=None):nearby_cars16,269
-def search_cars(req_params):search_cars25,457
-def nearby_passengers(lat, lng, pageinfo=None):nearby_passengers38,959
+one_server/model/ride_model.py,262
+def nearby_cars(lat, lng, pageinfo=None):nearby_cars18,333
+def nearby_car(id):nearby_car33,682
+def search(req_params):search44,901
+def nearby_passengers(lat, lng, pageinfo=None):nearby_passengers58,1456
+def nearby_passenger(id):nearby_passenger70,1729
 
 one_server/model/user_model.py,221
 def authenticate(func):authenticate22,458
     def wrapper(*args, **kwargs):wrapper25,500
 def load_user(token):load_user50,1068
-def login_user(token):login_user64,1423
-def get_comment(user_id):get_comment71,1526
+def login_user(token):login_user64,1435
+def get_comment(user_id):get_comment71,1538
 
-one_server/settings.py,593
+one_server/settings.py,592
 class Config(object):Config1,0
     SECRET_KEY = 'secret key'SECRET_KEY2,22
 class ProdConfig(Config):ProdConfig5,54
-    DEBUG = FalseDEBUG8,139
-    CACHE_TYPE = 'simple'CACHE_TYPE10,158
-    WTF_CSRF_ENABLED = FalseWTF_CSRF_ENABLED13,236
-    MONGO_HOST = 'localhost'MONGO_HOST16,286
-    MONGO_PORT = 27017MONGO_PORT17,315
-class DevConfig(Config):DevConfig21,363
-    DEBUG = TrueDEBUG22,388
-    CACHE_TYPE = 'simple'CACHE_TYPE24,406
-    WTF_CSRF_ENABLED = FalseWTF_CSRF_ENABLED27,484
-    MONGO_HOST = 'localhost'MONGO_HOST30,534
-    MONGO_PORT = 27017MONGO_PORT31,563
+    DEBUG = TrueDEBUG8,139
+    CACHE_TYPE = 'simple'CACHE_TYPE10,157
+    WTF_CSRF_ENABLED = FalseWTF_CSRF_ENABLED13,235
+    MONGO_HOST = 'localhost'MONGO_HOST16,285
+    MONGO_PORT = 27017MONGO_PORT17,314
+class DevConfig(Config):DevConfig21,362
+    DEBUG = TrueDEBUG22,387
+    CACHE_TYPE = 'simple'CACHE_TYPE24,405
+    WTF_CSRF_ENABLED = FalseWTF_CSRF_ENABLED27,483
+    MONGO_HOST = 'localhost'MONGO_HOST30,533
+    MONGO_PORT = 27017MONGO_PORT31,562
 
 one_server/static/js/main.js,0
 
@@ -207,49 +216,53 @@ app = one_server.create_app('one_server.settings.DevConfig', env='dev')app3,20
 
 tests/__init__.py,0
 
-tests/base.py,577
+tests/base.py,647
 app = create_app('one_server.settings.DevConfig', env='dev')app19,306
 test_app = app.test_client()test_app20,367
 context = app.test_request_context('/')context21,396
 token = str(mongo.db.user.find_one({'nickname': 'asdf'})['_id'])token30,563
-token2 = str(mongo.db.user.insert({'nickname': 'fdsa'}))token233,686
-def make_url_end(url, params):make_url_end36,745
-def parse_json(raw):parse_json46,944
-def to_dict(c):to_dict53,1077
-class TestBase(object):TestBase58,1189
-    def post(self, end, params):post60,1214
-    def get(self, end, params={}):get64,1344
+token2 = str(mongo.db.user.find_one({'nickname': 'fdsa'})['_id'])token233,686
+def make_url_end(url, params):make_url_end35,753
+def parse_json(raw):parse_json45,952
+def to_dict(c):to_dict52,1085
+class TestBase(object):TestBase57,1197
+    def post(self, end, params):post59,1222
+    def get(self, end, params={}):get63,1352
+    def get_result(self, end, params={}):get_result67,1492
 
-tests/test_db.py,197
+tests/test_db.py,155
 class TestDb:TestDb10,214
     def setup_class(cls):setup_class13,246
     def test_main(self):test_main16,306
     def test_geo(self):test_geo20,431
-    def test_user(self):test_user34,833
 
-tests/test_ride.py,522
-class TestRide(TestBase):TestRide11,193
-    def setup_class(cls):setup_class14,237
-    def insert_rides(cls):insert_rides18,308
-    def test_list_ride(self):test_list_ride41,1085
-    def test_pageination(self):test_pageination57,1629
-    def test_add(self):test_add65,1882
-    def test_search(self):test_search77,2250
-class TestTakeRide(TestBase):TestTakeRide112,3449
-    def setup_class(cls):setup_class115,3497
-    def insert_rides(cls):insert_rides119,3568
-    def test_add(self):test_add140,4263
+tests/test_ride.py,705
+class TestRide(TestBase):TestRide12,207
+    def setup_class(cls):setup_class15,251
+    def insert_rides(cls):insert_rides19,322
+    def test_list_ride(self):test_list_ride42,1085
+    def test_ride_detail(self):test_ride_detail58,1626
+    def test_pageination(self):test_pageination66,1941
+    def test_add(self):test_add74,2218
+    def test_search(self):test_search85,2544
+class TestPassenger(TestBase):TestPassenger120,3747
+    def setup_class(cls):setup_class123,3796
+    def insert_rides(cls):insert_rides127,3867
+    def test_add(self):test_add148,4558
+    def test_passengers(self):test_passengers159,4894
+    def test_passenger_detail(self):test_passenger_detail167,5139
 
-tests/test_user.py,626
-class TestUser(TestBase):TestUser9,171
-    def test_init(self):test_init11,198
-    def test_add_user(self):test_add_user14,284
-    def test_get_user(self):test_get_user31,782
-    def test_login(self):test_login36,921
-    def test_image(args):test_image47,1286
-    def test_validate_code(self):test_validate_code57,1646
-    def test_validate_phone(self):test_validate_phone62,1806
-    def test_submit_password(self):test_submit_password71,2101
-class TestComment(TestBase):TestComment77,2262
-    def test_do_comment(self):test_do_comment79,2292
-    def test_list_comments(self):test_list_comments84,2463
+tests/test_user.py,696
+class TestUser(TestBase):TestUser8,170
+    def test_init(self):test_init10,197
+    def test_add_user(self):test_add_user13,283
+    def test_get_user(self):test_get_user30,789
+    def test_get_specific_user(self):test_get_specific_user37,1011
+    def test_login(self):test_login42,1183
+    def test_image(args):test_image52,1523
+    def test_validate_code(self):test_validate_code62,1883
+    def test_validate_phone(self):test_validate_phone67,2043
+    def test_submit_password(self):test_submit_password76,2338
+class TestComment(TestBase):TestComment81,2498
+    def test_do_comment(self):test_do_comment83,2528
+    def test_list_comments(self):test_list_comments88,2699

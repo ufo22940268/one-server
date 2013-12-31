@@ -33,8 +33,8 @@ class TestRide(TestBase):
                 'car_type': 1,
                 'comment': 'asdf',
                 'debug': 1,
-                'token': token,
                 'car_type': 1,
+                'token': token,
             }
             rv = test_app.post('rides', data=params)
             assert rv.status_code == 200
@@ -173,3 +173,15 @@ class TestPassenger(TestBase):
         assert state == 200
         assert data['result']['user']
         assert data['result']['distance'] is not None
+        
+# class TestRequestRide(TestBase):
+    
+#     def test_request_take_ride(self):
+#         user_token1 = token
+#         user_token2 = token2
+#         result, status = self.get_result('request_take_ride', params={'token': token})
+#         assert status == 200
+
+#         result, status = self.get_result('specific_user', params={'token': token})
+#         assert len(result['ride_request_ids']) > 0
+

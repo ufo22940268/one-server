@@ -30,8 +30,7 @@ one_server.init_db()
 token = str(mongo.db.user.find_one({'nickname': 'asdf'})['_id'])
 
 #This user is used to test some function need two users.
-token2 = str(mongo.db.user.insert({'nickname': 'fdsa'}))
-
+token2 = str(mongo.db.user.find_one({'nickname': 'fdsa'})['_id'])
 
 def make_url_end(url, params):
     if not params.get('token'):
@@ -64,3 +63,8 @@ class TestBase(object):
     def get(self, end, params={}):
         rv = test_app.get(make_url_end(end, params))
         return parse_json(rv.data), rv.status_code
+
+    def get_result(self, end, params={}):
+        rv = test_app.get(make_url_end(end, params))
+        return parse_json(rv.data).get('result'), rv.status_code
+

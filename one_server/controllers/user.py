@@ -17,9 +17,12 @@ from one_server import common_util
 from one_server.controllers.base_controller import BaseResource
 import werkzeug.datastructures
 import arrow
+from one_server.model.user_model import authenticate
+from bson.dbref import DBRef
 
 class User(Resource):
-
+    
+    
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nickname', type=str, required=True)
@@ -45,12 +48,15 @@ class User(Resource):
         mongo.db.user.insert(args)
 
 class SingleUser(BaseResource):
+    
+    method_decorators = [authenticate]
 
     def get(self):
         uid = self.get_user_id()
         user = mongo.db.user.find_one({'_id': ObjectId(uid)})
         user = common_util.cursor_to_dict(user)
-        del user['password']
+        if user.get('password'):
+            del user['password']
         return self.result_ok(user)
 
 class SpecificUser(BaseResource):
@@ -74,9 +80,13 @@ class Comment(BaseResource):
         parser.add_argument('comment', type=str, required=True)
         args = parser.parse_args()
         user_id = self.get_user_id()
+        commentor_id = args['commentor_id']
+        comment_dict = {'comment': args['comment']}
+        comment_dict['commentor'] = DBRef('user', ObjectId(commentor_id))
+        comment_dict['time'] = arrow.utcnow().format('YYYY-MM-DD HH:mm')
         mongo.db.user.update(
             {"_id": ObjectId(user_id)},
-            {'$push': {'comment': args['comment']}})
+            {'$push': {'comment': comment_dict}})
         return '', 200
 
     def get(self):
@@ -84,7 +94,6 @@ class Comment(BaseResource):
         parser.add_argument('user_id', type=str, required=True)
         args = parser.parse_args()
         return {'result': user_model.get_comment(args['user_id'])}
-
 
 class Login(BaseResource):
 

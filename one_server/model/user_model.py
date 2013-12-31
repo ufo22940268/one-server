@@ -57,6 +57,7 @@ def load_user(token):
             oi = ObjectId(token)
         except:
             return
+            
         one = mongo.db.user.find_one({'_id': oi})
         if one:
             return login_user(token)
@@ -70,4 +71,13 @@ def login_user(token):
 
 def get_comment(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
-    return cursor_to_dict(user).get('comment')
+    user = dict(user)
+    comments = user.get('comment')
+    if comments:
+        for c in comments:
+            commentor = mongo.db.dereference(c['commentor'])
+            c['commentor_name'] = commentor['nickname']
+
+    comments = cursor_to_dict(comments)
+
+    return comments
