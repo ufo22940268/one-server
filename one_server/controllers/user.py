@@ -18,11 +18,12 @@ from one_server.controllers.base_controller import BaseResource
 import werkzeug.datastructures
 import arrow
 from one_server.model.user_model import authenticate
+from one_server.model import user_model
 from bson.dbref import DBRef
 
 class User(Resource):
-    
-    
+
+
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nickname', type=str, required=True)
@@ -48,7 +49,7 @@ class User(Resource):
         mongo.db.user.insert(args)
 
 class SingleUser(BaseResource):
-    
+
     method_decorators = [authenticate]
 
     def get(self):
@@ -57,7 +58,7 @@ class SingleUser(BaseResource):
         user = common_util.cursor_to_dict(user)
         if user.get('password'):
             del user['password']
-        return self.result_ok(user)
+            return self.result_ok(user)
 
 class SpecificUser(BaseResource):
 
@@ -65,7 +66,7 @@ class SpecificUser(BaseResource):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=str, required=True)
         args = parser.parse_args()
-        
+
         uid = args['id']
         user = mongo.db.user.find_one({'_id': ObjectId(uid)})
         user = common_util.cursor_to_dict(user)
@@ -160,6 +161,29 @@ class DonateRideCoin(BaseResource):
                              {'$inc': {'ride_coin': quantity}})
         return self.result_ok()
 
+class PassengerHistory(BaseResource):
+
+    def get(self):
+        uid = self.get_user_id()
+        raw = mongo.db.passenger.find({'user_id': uid})
+        dict = common_util.cursor_to_dict(raw)
+        return self.result_ok(dict)
+
+class CommentPassenger(BaseResource):
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', type=str, required=True)
+        parser.add_argument('content', type=str, required=True)
+        args = parser.parse_args()
+        content = args['content']
+        id = args['id']
+
+        username = user_model.get_name(self.get_user_id())
+
+        mongo.db.passenger.update({'_id': ObjectId(id)},
+                             {'$push': {'user_comments': {'name': username, 'content': content}}})
+        return self.result_ok()
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
@@ -171,3 +195,5 @@ api.add_resource(ValidatePhone, '/validate_phone')
 api.add_resource(ValidateCode, '/validate_code')
 api.add_resource(SubmitPassword, '/submit_password')
 api.add_resource(DonateRideCoin, '/donate_ride_coin')
+api.add_resource(PassengerHistory, '/my_passenger_history')
+api.add_resource(CommentPassenger, '/passenger_comment')

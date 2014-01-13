@@ -15,8 +15,19 @@ from bson.json_util import dumps
 import requests
 
 def cursor_to_dict(c):
-    """Convert mongodb cursor object to python dict object"""
-    return json.loads(dumps(c))
+    """Convert mongodb cursor object to python dict object
+    If the cursor object contains _id, then convert it to a plain string."""
+    r = json.loads(dumps(c))
+    
+    if type(r) == list:
+        for x in r:
+            if x.get('_id'):
+                x['_id'] = x['_id']['$oid']
+                
+    else:
+        r['_id'] = r['_id']['$oid']
+
+    return r
 
 
 def distance_on_unit_sphere(lat1, long1, lat2, long2):

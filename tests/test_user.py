@@ -90,7 +90,7 @@ class TestComment(TestBase):
             params = {'commentor_id': token2, 'comment': 'sb'}
             js, status = self.post('comments', params)
             assert status == 200
-            
+
         js, status = self.get('comments', params={'user_id': token})
         assert len(js['result'])
         result = js['result']
@@ -99,7 +99,7 @@ class TestComment(TestBase):
         assert first['time']
 
 class TestComment(TestBase):
-    
+
     def test_ride_coin(self):
         user = self.get_token_user()
         assert not user.get("ride_coin")
@@ -107,3 +107,46 @@ class TestComment(TestBase):
         self.post("donate_ride_coin", {'quantity': '10'})
         user = self.get_token_user()
         user["ride_coin"] == 10
+
+class TestMyRides(TestBase):
+
+    @classmethod
+    def setup_class(cls):
+        lat = 39.983424 + float(1)/(10**4)
+        lng = 116.322987 + float(1)/(10**4)
+        params = {
+            'title': 't',
+            'start_off_time': '1922-02-01 21:22',
+            'wait_time': '1',
+            'start_lat': lat,
+            'start_lng': lng,
+            'dest_lat': lat,
+            'dest_lng': lng,
+            'price': 2,
+            'people': 2,
+            'comment': 'asdf',
+            'debug': 1,
+            'token': token,
+        }
+        
+        rv = test_app.post('passengers', data=params)
+        assert rv.status_code == 200
+
+    def test_list_my_rides(self):
+        result, code =  self.get_result('my_passenger_history')
+        assert code == 200
+        assert len(result) > 0
+
+    def test_comment_my_ride(self):
+        result, code =  self.get_result('my_passenger_history')
+        first = result[0]
+        id = first['_id']
+        
+        result, code =  self.post('passenger_comment', {'id': id, 'content': 'great'})
+        assert code == 200
+
+        result, code =  self.get_result('my_passenger_history')
+        for x in result:
+            if x['_id'] == id:
+                assert x.get('user_comments')
+                assert len(x.get('user_comments')) > 0

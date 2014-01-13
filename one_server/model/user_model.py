@@ -81,3 +81,7 @@ def get_comment(user_id):
     comments = cursor_to_dict(comments)
 
     return comments
+
+def get_name(user_id):
+    user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    return user['username']

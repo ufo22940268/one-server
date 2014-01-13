@@ -432,6 +432,54 @@ GET
     |------+------+----------+----------------|
     | id   | str  | True     | 待邀请的用户id |
   
+
+* 搭车记录
+** 我的搭车记录
+   
+*** 请求方法
+    GET
+    
+*** 路径
+    /my_passenger_history
+    
+*** 请求参数
+    无    
+
+*** 返回
+    | name           | desc                  |
+    |----------------+-----------------------|
+    | title          | 标题                  |
+    | start_off_time | 搭车时间              |
+    | start_loc      | 乘车地点              |
+    | dest_loc       | 目的地                |
+    | start_addr     | 可阅读的乘车地点      |
+    | dest_addr      | 可阅读的目的地        |
+    | price          | 所需搭车币            |
+    | people         | 乘车人数              |
+    | distance       | 距离                  |
+    | user           | 用户信息（参见下面）  |
+    | rating         | 星级（返回一个mock值) |
+    | comment        | 评论（废弃）          |
+    | user_comments  | 用户评论              |
+
+** 评论
+   
+*** 请求方法
+    GET
+    
+*** 路径
+    /passenger_comment
+    
+*** 请求参数
+    | name    | type | required | desc                    |
+    |---------+------+----------+-------------------------|
+    | id      | str  | true     | passenger_history中的id |
+    | content | str  | true     | 评论的内容              |
+    
+*** 返回
+    | name           | desc                  |
+    |----------------+-----------------------|
+
 * Todo list
 
 ** DONE 头像属性没看到呢，性别   星级  都还没做呢吗，ride接口中
