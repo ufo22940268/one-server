@@ -25,6 +25,7 @@ context.push()
 mongo.db.user.remove()
 mongo.db.comment.remove()
 mongo.db.ride.remove()
+mongo.db.passenger.remove()
 
 one_server.init_db()
 token = str(mongo.db.user.find_one({'nickname': 'asdf'})['_id'])
@@ -72,3 +73,47 @@ class TestBase(object):
         data, status_code = self.get('specific_user', {"id": token})
         assert status_code == 200
         return data['result']
+
+
+def insert_ride_item(uid=token):
+    lat = 39.983424 + float(1)/(10**4)
+    lng = 116.322987 + float(1)/(10**4)
+    params = {
+        'title': 't',
+        'start_off_time': '1922-02-01 21:22',
+        'wait_time': '1922-02-01 21:22',
+        'start_lat': lat,
+        'start_lng': lng,
+        'dest_lat': lat,
+        'dest_lng': lng,
+        'price': 2,
+        'people': 2,
+        'car_type': 1,
+        'comment': 'asdf',
+        'debug': 1,
+        'car_type': 1,
+        'token': uid,
+    }
+    
+    rv = test_app.post('rides', data=params)
+    assert rv.status_code == 200
+
+def insert_passenger_item(uid=token):
+        lat = 39.983424 + float(1)/(10**4)
+        lng = 116.322987 + float(1)/(10**4)
+        params = {
+            'title': u'阿斯蒂芬',
+            'start_off_time': '1922-02-01 21:22',
+            'wait_time': '1',
+            'start_lat': lat,
+            'start_lng': lng,
+            'dest_lat': lat,
+            'dest_lng': lng,
+            'price': 2,
+            'people': 2,
+            'comment': u'撒旦法士大夫',
+            'debug': 1,
+            'token': uid,
+        }
+        rv = test_app.post('passengers', data=params)
+        assert rv.status_code == 200

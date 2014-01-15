@@ -169,6 +169,22 @@ class PassengerHistory(BaseResource):
         dict = common_util.cursor_to_dict(raw)
         return self.result_ok(dict)
 
+class AllHistory(BaseResource):
+
+    def get(self):
+        uid = self.get_user_id()
+        raw1 = mongo.db.passenger.find({'user_id': uid})
+        dict1 = common_util.cursor_to_dict(raw1)
+        for x in dict1:
+            x['type'] = 0
+        
+        raw2 = mongo.db.ride.find({'user.$id': ObjectId(uid)})
+        dict2 = common_util.cursor_to_dict(raw2)
+        for x in dict2:
+            x['type'] = 1
+
+        return self.result_ok(dict1 + dict2)
+
 class CommentPassenger(BaseResource):
 
     def post(self):
@@ -196,4 +212,5 @@ api.add_resource(ValidateCode, '/validate_code')
 api.add_resource(SubmitPassword, '/submit_password')
 api.add_resource(DonateRideCoin, '/donate_ride_coin')
 api.add_resource(PassengerHistory, '/my_passenger_history')
+api.add_resource(AllHistory, '/my_all_history')
 api.add_resource(CommentPassenger, '/passenger_comment')

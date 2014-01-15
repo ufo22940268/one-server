@@ -14,6 +14,7 @@ class TestRide(TestBase):
     @classmethod
     def setup_class(cls):
         cls.insert_rides()
+        insert_passenger_item()
 
     @classmethod
     def insert_rides(cls):
@@ -121,15 +122,15 @@ class TestPassenger(TestBase):
 
     @classmethod
     def setup_class(cls):
-        cls.insert_rides()
+        cls.insert_passengers()
 
     @classmethod
-    def insert_rides(cls):
+    def insert_passengers(cls):
         for i in range(10):
             lat = 39.983424 + float(i)/(10**4)
             lng = 116.322987 + float(i)/(10**4)
             params = {
-                'title': 't',
+                'title': u'阿斯蒂芬',
                 'start_off_time': '1922-02-01 21:22',
                 'wait_time': '1',
                 'start_lat': lat,
@@ -138,7 +139,7 @@ class TestPassenger(TestBase):
                 'dest_lng': lng,
                 'price': 2,
                 'people': 2,
-                'comment': 'asdf',
+                'comment': u'撒旦法士大夫',
                 'debug': 1,
                 'token': token,
             }

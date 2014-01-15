@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from one_server import mongo
 from base import test_app, TestBase, token2, token
+import base
 from StringIO import StringIO
 import pytest
 
@@ -132,6 +133,9 @@ class TestMyRides(TestBase):
         rv = test_app.post('passengers', data=params)
         assert rv.status_code == 200
 
+        #insert ride info.
+        base.insert_ride_item(token)
+
     def test_list_my_rides(self):
         result, code =  self.get_result('my_passenger_history')
         assert code == 200
@@ -150,3 +154,9 @@ class TestMyRides(TestBase):
             if x['_id'] == id:
                 assert x.get('user_comments')
                 assert len(x.get('user_comments')) > 0
+                
+    def test_list_all_my_rides(self):
+        result1, code =  self.get_result('my_all_history')
+        result2, code =  self.get_result('my_passenger_history')
+        assert len(result1) > len(result2)
+        assert result1[0].get('type') is not None

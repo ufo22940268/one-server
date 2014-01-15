@@ -115,7 +115,7 @@ class Passengers(BaseResource):
 
     def __init__(self):
         self.api_parser = reqparse.RequestParser()
-        self.api_parser.add_argument('title'          , type=str   , required=True)
+        self.api_parser.add_argument('title'          , type=unicode   , required=True)
         self.api_parser.add_argument('start_off_time' , type=str   , required=True)
         self.api_parser.add_argument('wait_time'      , type=str   , required=True)
         self.api_parser.add_argument('start_lat'      , type=float , required=True)
@@ -124,7 +124,7 @@ class Passengers(BaseResource):
         self.api_parser.add_argument('dest_lng'       , type=float , required=True)
         self.api_parser.add_argument('price'          , type=int   , required=True)
         self.api_parser.add_argument('people'         , type=int   , required=True)
-        self.api_parser.add_argument('comment'        , type=str)
+        self.api_parser.add_argument('comment'        , type=unicode)
         self.api_parser.add_argument('debug'        , type=int)
 
     def get(self):
