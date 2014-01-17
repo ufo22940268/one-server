@@ -170,7 +170,9 @@ class PassengerHistory(BaseResource):
         return self.result_ok(dict)
 
 class AllHistory(BaseResource):
-
+    
+    method_decorators = [authenticate]
+    
     def get(self):
         uid = self.get_user_id()
         raw1 = mongo.db.passenger.find({'user_id': uid})

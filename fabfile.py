@@ -29,6 +29,9 @@ def kill_unicorn():
         run("bash kill.sh")
 
 def db():
+    #clear remote db
+    run('mongo one_server --eval "db.dropDatabase()"')
+    
     # Migrate db file.
     local('mongodump --out /tmp/db && tar -cvf /tmp/db.tar /tmp/db')
     put('/tmp/db.tar', '/tmp/db.tar')
