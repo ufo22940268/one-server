@@ -342,16 +342,16 @@ get
 无
 
 *** 返回值
-| name          | desc       |
-|---------------+------------|
-| nickname      | 昵称       |
-| status        | 个性签名   |
-| sex           | 性别       |
-| age_segment   | 年龄段     |
-| image_url     | 头像       |
-| merchant_coin | 爱心币个数 |
-| ride_coin     | 搭车币个数 |
-| rating        | 星星等级   |
+| name          | desc                          |
+|---------------+-------------------------------|
+| nickname      | 昵称                          |
+| status        | 个性签名                      |
+| sex           | 性别                          |
+| age_segment   | 年龄段（数字表示 80表示80后） |
+| image_url     | 头像                          |
+| merchant_coin | 爱心币个数                    |
+| ride_coin     | 搭车币个数                    |
+| rating        | 星星等级                      |
 
 ** 根据用户id获取用户
 *** 请求方法
@@ -367,13 +367,13 @@ get
  
 
 *** 返回值
-| name        | desc     |
-|-------------+----------|
-| nickname    | 昵称     |
-| status      | 个性签名 |
-| sex         | 性别     |
-| age_segment | 年龄段   |
-| image_url   | 头像     |
+| name        | desc                          |
+|-------------+-------------------------------|
+| nickname    | 昵称                          |
+| status      | 个性签名                      |
+| sex         | 性别                          |
+| age_segment | 年龄段（数字表示 80表示80后） |
+| image_url   | 头像                          |
 
 ** 捐赠搭车币
 
@@ -403,13 +403,26 @@ POST
 | commentor_id | str  | True     | 评论者的id |
 | comment      | str  | True     | 评论的内容 |
 
-** 查看评论某个用户的评论
+** 查看评论某个用户的评论(*废弃*)
 
 *** 请求方法
 GET
 
 *** 路径
 /comments
+
+*** 请求参数
+| name    | type | required | desc     |
+|---------+------+----------+----------|
+| user_id | str  | True     | 用户id   |
+
+** 查看评论某个用户发布的搭车信息的评论
+
+*** 请求方法
+GET
+
+*** 路径
+/ride_comment
 
 *** 请求参数
 | name    | type | required | desc     |

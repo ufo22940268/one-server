@@ -162,8 +162,11 @@ class DonateRideCoin(BaseResource):
         return self.result_ok()
 
 class PassengerHistory(BaseResource):
-
+    
     def get(self):
+        """
+        TODO: 从ride那边获取评论信息。
+        """
         uid = self.get_user_id()
         raw = mongo.db.passenger.find({'user_id': uid})
         dict = common_util.cursor_to_dict(raw)
@@ -175,33 +178,41 @@ class AllHistory(BaseResource):
     
     def get(self):
         uid = self.get_user_id()
-        raw1 = mongo.db.passenger.find({'user_id': uid})
-        dict1 = common_util.cursor_to_dict(raw1)
-        for x in dict1:
-            x['type'] = 0
-        
         raw2 = mongo.db.ride.find({'user.$id': ObjectId(uid)})
-        dict2 = common_util.cursor_to_dict(raw2)
-        for x in dict2:
+        dict1 = common_util.cursor_to_dict(raw2)
+        for x in dict1:
             x['type'] = 1
 
-        return self.result_ok(dict1 + dict2)
+        #mock request ride success info.
+        dict1[0]['type'] = 0
 
-class CommentPassenger(BaseResource):
+        return self.result_ok(dict1)
+
+class RideComment(BaseResource):
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('user_id', type=str, required=True)
+        args = parser.parse_args()
+        raw = mongo.db.ride.find({"user.$id": ObjectId(args['user_id']), "user_comments": {"$exists": True}}, {"user_comments": 1})
+        data = common_util.cursor_to_dict(raw)
+        return self.result_ok(data)
 
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=str, required=True)
-        parser.add_argument('content', type=str, required=True)
+        parser.add_argument('content', type=unicode, required=True)
         args = parser.parse_args()
         content = args['content']
         id = args['id']
 
         username = user_model.get_name(self.get_user_id())
 
-        mongo.db.passenger.update({'_id': ObjectId(id)},
-                             {'$push': {'user_comments': {'name': username, 'content': content}}})
+        mongo.db.ride.update({'_id': ObjectId(id)},
+                             {'$push': {'user_comments':
+                                        {'name': username, 'content': content, 'time': arrow.utcnow().format('YYYY-MM-DD HH:mm:ss')}}})
         return self.result_ok()
+
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
@@ -215,4 +226,4 @@ api.add_resource(SubmitPassword, '/submit_password')
 api.add_resource(DonateRideCoin, '/donate_ride_coin')
 api.add_resource(PassengerHistory, '/my_passenger_history')
 api.add_resource(AllHistory, '/my_all_history')
-api.add_resource(CommentPassenger, '/passenger_comment')
+api.add_resource(RideComment, '/ride_comment')
