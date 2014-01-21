@@ -196,7 +196,10 @@ class RideComment(BaseResource):
         args = parser.parse_args()
         raw = mongo.db.ride.find({"user.$id": ObjectId(args['user_id']), "user_comments": {"$exists": True}}, {"user_comments": 1})
         data = common_util.cursor_to_dict(raw)
-        return self.result_ok(data)
+        comments = []
+        for x in data:
+            comments += x['user_comments']
+        return self.result_ok(comments)
 
     def post(self):
         parser = reqparse.RequestParser()
@@ -213,6 +216,21 @@ class RideComment(BaseResource):
                                         {'name': username, 'content': content, 'time': arrow.utcnow().format('YYYY-MM-DD HH:mm:ss')}}})
         return self.result_ok()
 
+class ConvertMerchantCoin(BaseResource):
+    
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('coin', type=int, required=True)
+        args = parser.parse_args()
+        coin = args['coin']
+
+        uid = self.get_user_id()
+        left_coin = mongo.db.user.find_one({'_id': ObjectId(uid)})['merchant_coin']
+        coin = min(coin, left_coin) if left_coin else coin
+        mongo.db.user.update({'_id': ObjectId(uid)},
+                             {'$inc': {'merchant_coin': -coin, 'ride_coin': -coin}})
+        return self.result_ok()
+        
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
@@ -227,3 +245,4 @@ api.add_resource(DonateRideCoin, '/donate_ride_coin')
 api.add_resource(PassengerHistory, '/my_passenger_history')
 api.add_resource(AllHistory, '/my_all_history')
 api.add_resource(RideComment, '/ride_comment')
+api.add_resource(ConvertMerchantCoin, '/convert_to_ride_coin')

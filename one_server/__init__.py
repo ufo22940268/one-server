@@ -30,8 +30,8 @@ def init_db():
                         'sex': '0',
                         'image_url': image,
                         'status': 'asdfasdfasdf',
-                        'merchant_coin': 1,
-                        'ride_coin ': 1,
+                        'merchant_coin': 5,
+                        'ride_coin ': 10,
                         'age_segment': 80,
                         'rating': 3,
                         '_id': ObjectId('52a468d91d24ead09274284d')})

@@ -156,16 +156,20 @@ class TestMyRides(TestBase):
         
         result, code =  self.get_result('ride_comment', {"user_id": token})
         assert len(result) > 1
-        assert result[1].get('user_comments')[0].get("time")
-
-        ## Get comment info from ride collection. But haven't implemented yet.
-        # result, code =  self.get_result('my_passenger_history')
-        # for x in result:
-        #     if x['_id'] == id:
-        #         assert x.get('user_comments')
-        #         assert len(x.get('user_comments')) > 0
+        assert result[1].get("time")
                 
     def test_list_all_my_rides(self):
         result1, code =  self.get_result('my_all_history')
         result2, code =  self.get_result('my_passenger_history')
         assert result1[0].get('type') is not None
+        
+class TestCoin(TestBase):
+
+    def test_convert_to_ride_coin(self):
+        """
+        测试搭车币转换成爱心币的接口
+        """
+        user_before = self.get_result('user')
+        self.post('convert_to_ride_coin', {'coin': 12})
+        user_after = self.get_result('user')
+        assert user_before != user_after

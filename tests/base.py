@@ -58,6 +58,9 @@ def to_dict(c):
 class TestBase(object):
 
     def post(self, end, params):
+        if not params.get('token'):
+            params['token'] = token
+            
         rv = test_app.post(end, data=params)
         return parse_json(rv.data), rv.status_code
 
