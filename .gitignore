@@ -40,3 +40,4 @@ env*
 Session.vim
 .#*
 one_server/static/public/files/*
+/tags
