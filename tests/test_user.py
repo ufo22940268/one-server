@@ -173,3 +173,14 @@ class TestCoin(TestBase):
         self.post('convert_to_ride_coin', {'coin': 12})
         user_after = self.get_result('user')
         assert user_before != user_after
+
+    def test_get_coin(self):
+        """
+        获取各种币的数量
+        """
+        user_coin, status = self.get_result('user_coin')
+        assert status == 200
+        assert user_coin.get('merchant_coin') is not None
+        assert user_coin.get('ride_coin') is not None
+        
+

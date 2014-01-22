@@ -402,6 +402,26 @@ POST
     | token         | str  | True     | 用户id     |
     | coin  | int  | True     | 爱心币数量 |
     
+
+** 获取搭车币信息
+   
+*** 请求方法
+    GET
+    
+*** 路径
+    /user_coin
+    
+*** 请求参数
+    | name  | type | required | desc |
+    |-------+------+----------+------|
+    | token | str  | true     | 用户id |
+    
+*** 返回
+    | name          | desc       |
+    |---------------+------------|
+    | merchant_coin | 爱心币数量 |
+    | ride_coin     | 搭车币数量 |
+  
 * 我的评价
 
 ** 添加评论

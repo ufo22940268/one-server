@@ -162,7 +162,7 @@ class DonateRideCoin(BaseResource):
         return self.result_ok()
 
 class PassengerHistory(BaseResource):
-    
+
     def get(self):
         """
         TODO: 从ride那边获取评论信息。
@@ -173,9 +173,9 @@ class PassengerHistory(BaseResource):
         return self.result_ok(dict)
 
 class AllHistory(BaseResource):
-    
+
     method_decorators = [authenticate]
-    
+
     def get(self):
         uid = self.get_user_id()
         raw2 = mongo.db.ride.find({'user.$id': ObjectId(uid)})
@@ -199,7 +199,7 @@ class RideComment(BaseResource):
         comments = []
         for x in data:
             comments += x['user_comments']
-        return self.result_ok(comments)
+            return self.result_ok(comments)
 
     def post(self):
         parser = reqparse.RequestParser()
@@ -217,7 +217,9 @@ class RideComment(BaseResource):
         return self.result_ok()
 
 class ConvertMerchantCoin(BaseResource):
-    
+
+    method_decorators = [authenticate]
+
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('coin', type=int, required=True)
@@ -230,7 +232,16 @@ class ConvertMerchantCoin(BaseResource):
         mongo.db.user.update({'_id': ObjectId(uid)},
                              {'$inc': {'merchant_coin': -coin, 'ride_coin': -coin}})
         return self.result_ok()
-        
+
+class UserCoin(BaseResource):
+    method_decorators = [authenticate]
+
+    def get(self):
+        user_id = self.get_user_id()
+        coin = mongo.db.user.find_one({"_id": ObjectId(user_id)},
+                                      {'merchant_coin': True, 'ride_coin': True})
+        coin = common_util.cursor_to_dict(coin)
+        return self.result_ok(coin)
 
 api.add_resource(User, '/users')
 api.add_resource(SingleUser, '/user')
@@ -246,3 +257,4 @@ api.add_resource(PassengerHistory, '/my_passenger_history')
 api.add_resource(AllHistory, '/my_all_history')
 api.add_resource(RideComment, '/ride_comment')
 api.add_resource(ConvertMerchantCoin, '/convert_to_ride_coin')
+api.add_resource(UserCoin, '/user_coin')
